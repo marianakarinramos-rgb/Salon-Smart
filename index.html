@@ -925,7 +925,7 @@
     </div>
 
     <script>
-        // --- Bases de Datos Local ---
+        // --- Bases de Datos Local (mantenemos llaves originales para no perder datos previos) ---
         let clientas = JSON.parse(localStorage.getItem('yes_clientas')) || [];
         let caja = JSON.parse(localStorage.getItem('yes_caja')) || [];
         let stock = JSON.parse(localStorage.getItem('yes_stock')) || [];
@@ -1088,7 +1088,7 @@
                 }
             }
 
-            // Opciones variadas de texto (sin fórmulas)
+            // Opciones variadas de texto (sin fórmulas) y con saltos de línea reales
             const opciones = [
                 `¡Miren el resultado de ${nombre}! 😍🔥\n\nHoy le hicimos ${servicio} y no podemos creer lo hermoso que quedó. ¡Un cambio súper fresco y el pelo impecable! ✨\n\n📍 Visitá nuestro salón.\n💬 Escribinos por MD para turnos.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
                 
