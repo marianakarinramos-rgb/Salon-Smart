@@ -85,10 +85,10 @@
                 <!-- Logo Dinámico -->
                 <img id="sidebar-logo" src="" class="h-10 md:h-14 w-auto mb-1 hidden display-brand-logo object-contain mx-auto rounded-full shadow-sm">
                 <!-- Logo por Defecto -->
-                <svg id="sidebar-default-logo" viewBox="0 0 130 60" class="h-10 md:h-14 w-auto mb-1 default-logo-svg mx-auto" stroke="var(--brand-primary)" stroke-width="3" fill="none" stroke-linecap="square" stroke-linejoin="miter">
-                    <path d="M 5,10 L 20,35 L 20,50 M 35,10 L 20,35" />
-                    <path d="M 46,35 L 74,35 A 14,14 0 0,0 46,35 A 14,14 0 0,0 72,47" />
-                    <path d="M 110,21 L 90,21 A 7,7 0 0,0 90,35 L 105,35 A 7,7 0 0,1 105,49 L 80,49" />
+                <svg id="sidebar-default-logo" viewBox="0 0 24 24" class="h-10 md:h-14 w-auto mb-1 default-logo-svg mx-auto" stroke="var(--brand-primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
                 </svg>
                 <div class="mt-2 hidden md:block w-full">
                     <h1 class="text-sm font-bold tracking-widest text-gray-900 uppercase leading-tight display-brand-name truncate text-center">Mi Negocio</h1>
@@ -925,7 +925,7 @@
     </div>
 
     <script>
-        // --- Bases de Datos Local (mantenemos llaves originales para no perder datos previos) ---
+        // --- Bases de Datos Local ---
         let clientas = JSON.parse(localStorage.getItem('yes_clientas')) || [];
         let caja = JSON.parse(localStorage.getItem('yes_caja')) || [];
         let stock = JSON.parse(localStorage.getItem('yes_stock')) || [];
@@ -1090,15 +1090,15 @@
 
             // Opciones variadas de texto (sin fórmulas)
             const opciones = [
-                `¡Miren el resultado de ${nombre}! 😍🔥 Hoy le hicimos ${servicio} y no podemos creer lo hermoso que quedó. ¡Un cambio súper fresco y el pelo impecable! ✨\n\n📍 Visitá nuestro salón.\n💬 Escribinos por MD para turnos.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
+                `¡Miren el resultado de ${nombre}! 😍🔥\n\nHoy le hicimos ${servicio} y no podemos creer lo hermoso que quedó. ¡Un cambio súper fresco y el pelo impecable! ✨\n\n📍 Visitá nuestro salón.\n💬 Escribinos por MD para turnos.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
                 
-                `El cambio de ${nombre} es todo lo que está bien. ✨ Pasó por el salón para hacerse ${servicio} y se fue divina. ¿Qué les parece el resultado? 👇\n\n📍 Te esperamos en el salón.\n💬 Pedí tu turno por MD.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
+                `El cambio de ${nombre} es todo lo que está bien. ✨\n\nPasó por el salón para hacerse ${servicio} y se fue divina. ¿Qué les parece el resultado? 👇\n\n📍 Te esperamos en el salón.\n💬 Pedí tu turno por MD.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
                 
-                `¡Renovación total para ${nombre}! 🤩 Amamos crear este look. Le hicimos ${servicio} cuidando al máximo la salud de su pelo. ¡Lista para brillar! ✨\n\n📍 Visitá nuestro salón.\n💬 Escribinos por MD para turnos.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
+                `¡Renovación total para ${nombre}! 🤩\n\nAmamos crear este look. Le hicimos ${servicio} cuidando al máximo la salud de su pelo. ¡Lista para brillar! ✨\n\n📍 Visitá nuestro salón.\n💬 Escribinos por MD para turnos.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
                 
-                `¡Magia en el salón con ${nombre}! ✨ Vino a buscar un cambio y con este ${servicio} logramos un resultado espectacular. ¡Nos encanta verlas felices! 💕\n\n📍 Agendá tu visita.\n💬 Consultas y turnos por MD.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
+                `¡Magia en el salón con ${nombre}! ✨\n\nVino a buscar un cambio y con este ${servicio} logramos un resultado espectacular. ¡Nos encanta verlas felices! 💕\n\n📍 Agendá tu visita.\n💬 Consultas y turnos por MD.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`,
                 
-                `¡Amando fuerte cómo quedó ${nombre}! 💖 Elegimos hacerle ${servicio} para darle ese toque especial. ¿Del 1 al 10 cuánto le dan a este resultado? 🔥\n\n📍 Te esperamos en nuestro salón.\n💬 Escribinos por MD para reservar.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`
+                `¡Amando fuerte cómo quedó ${nombre}! 💖\n\nElegimos hacerle ${servicio} para darle ese toque especial. ¿Del 1 al 10 cuánto le dan a este resultado? 🔥\n\n📍 Te esperamos en nuestro salón.\n💬 Escribinos por MD para reservar.\n\n#peluqueria #cambiodelook #estilista #${servicio_tag}`
             ];
 
             // Seleccionar aleatorio
