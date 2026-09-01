@@ -715,7 +715,8 @@
                 </div>
 
                 <h4 class="font-bold text-app-text mb-2 text-[9px] uppercase tracking-widest">Historial Clínico Histórico</h4>
-                <div id="historial-lista-solo-lectura" class="space-y-1.5 opacity-80 pointer-events-none"></div>
+                <!-- CÓDIGO CORREGIDO PARA QUE PERMITA HACER CLIC Y ELIMINAR VISITAS -->
+                <div id="historial-lista-solo-lectura" class="space-y-1.5 opacity-80"></div>
             </div>
             <div class="p-3 border-t border-app-border bg-app-panel flex justify-end gap-2">
                 <button onclick="cerrarModal('modal-ficha')" class="text-app-muted font-bold px-3 py-2 hover:bg-app-border rounded-lg hidden md:block border border-transparent transition text-xs">Cancelar</button>
@@ -1049,6 +1050,7 @@
             abrirModalUI('modal-ficha'); 
         }
         
+        // MODIFICACIÓN UX: Botón de borrado dentro del historial
         function editarClienta(id) { 
             const c = clientas.find(x => x.id === id); 
             document.getElementById('titulo-modal-ficha').innerText = 'Ficha: ' + c.nombre; 
@@ -1060,13 +1062,34 @@
             
             const cont = document.getElementById('historial-lista-solo-lectura');
             if(c.visitas && c.visitas.length > 0) {
-                cont.innerHTML = [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map(v => 
-                    `<div class="bg-app-card p-2 rounded-lg border border-app-border relative text-xs"><div class="font-bold text-app-text"><span class="bg-app-panel text-app-muted text-[9px] px-1 py-0.5 rounded mr-1 border border-app-border">${formatearFechaAr(v.fecha)}</span>${v.servicio}</div>${v.formula ? `<div class="mt-0.5 text-app-text opacity-80 font-medium text-[10px] italic">${v.formula}</div>` : ''}</div>`
+                cont.innerHTML = [...c.visitas].sort((a,b)=>new Date(b.fecha.replace(/\//g,'-'))-new Date(a.fecha.replace(/\//g,'-'))).map(v => 
+                    `<div class="bg-app-card p-2 rounded-lg border border-app-border relative text-xs flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-app-text"><span class="bg-app-panel text-app-muted text-[9px] px-1 py-0.5 rounded mr-1 border border-app-border">${formatearFechaAr(v.fecha)}</span>${v.servicio}</div>
+                            ${v.formula ? `<div class="mt-0.5 text-app-text opacity-80 font-medium text-[10px] italic">${v.formula}</div>` : ''}
+                        </div>
+                        <button onclick="borrarVisita('${c.id}', '${v.id}')" class="text-rose-500 hover:text-rose-600 bg-app-panel border border-app-border w-6 h-6 rounded flex items-center justify-center ml-2 shrink-0"><i class="fas fa-trash text-[10px]"></i></button>
+                    </div>`
                 ).join('');
             } else {
                 cont.innerHTML = '<p class="text-[10px] text-app-muted font-medium italic py-1">Sin historial previo.</p>';
             }
             abrirModalUI('modal-ficha'); 
+        }
+
+        // NUEVA FUNCIÓN: Permite borrar una visita específica si te equivocaste
+        function borrarVisita(clienteId, visitaId) {
+            pedirConfirmacion('¿Borrar esta visita del historial?', () => {
+                let c = clientas.find(x => x.id === clienteId);
+                if(c) {
+                    c.visitas = c.visitas.filter(v => v.id !== visitaId);
+                    guardarBD();
+                    editarClienta(clienteId); // Recarga el modal al instante
+                    renderClientas(); // Actualiza la grilla de fondo
+                    actualizarEstadisticas();
+                    mostrarToast('Visita eliminada', 'bg-emerald-200 text-emerald-900');
+                }
+            });
         }
         
         function guardarClientaYVisita() { 
