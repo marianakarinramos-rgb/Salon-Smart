@@ -728,7 +728,12 @@
     <div id="modal-importar" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Clientas</h3><button onclick="cerrarModal('modal-importar')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <div class="p-5"><textarea id="texto-excel" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Pegá acá (Ctrl+V)..."></textarea></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CLIENTAS -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaClientas()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Teléfono | Fecha | Servicio | Fórmula"></textarea></div>
             <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoExcel()" class="bg-emerald-200 border border-emerald-300 text-emerald-900 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar Datos</button></div>
         </div>
     </div>
@@ -749,7 +754,12 @@
     <div id="modal-importar-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Stock</h3><button onclick="cerrarModal('modal-importar-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <div class="p-5"><textarea id="texto-excel-stock" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Código | Nombre | Costo | Precio | Cant | Min"></textarea></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA STOCK -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaStock()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-stock" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Código | Nombre | Costo | Precio | Cant | Min"></textarea></div>
             <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoStock()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
         </div>
     </div>
@@ -769,7 +779,12 @@
     <div id="modal-importar-catalogo" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Precios</h3><button onclick="cerrarModal('modal-importar-catalogo')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <div class="p-5"><textarea id="texto-excel-catalogo" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Precio"></textarea></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CATÁLOGO -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaCatalogo()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-catalogo" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Precio"></textarea></div>
             <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoCatalogo()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
         </div>
     </div>
@@ -1381,6 +1396,29 @@
         function eliminarMedia(id) { document.getElementById(id).remove(); collageImagesUrls = collageImagesUrls.filter(img => img.id !== id); actualizarBotonCollage(); }
         function actualizarBotonCollage() { const btnCollage = document.getElementById('btn-generar-collage'); if(collageImagesUrls.length > 0) { btnCollage.classList.remove('hidden'); btnCollage.classList.add('flex'); } else { btnCollage.classList.add('hidden'); btnCollage.classList.remove('flex'); } }
         function generarCollage() { if(collageImagesUrls.length === 0) return; mostrarToast("Armando Collage...", "bg-app-primary text-app-textOn"); const grid = document.getElementById('collage-grid'); grid.innerHTML = ""; const count = collageImagesUrls.length; if(count === 1) grid.style.gridTemplateColumns = "1fr"; else if(count === 2 || count === 4) grid.style.gridTemplateColumns = "1fr 1fr"; else grid.style.gridTemplateColumns = "1fr 1fr 1fr"; const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('collage-marca').innerText = nombreEmpresa.toUpperCase(); collageImagesUrls.slice(0, 6).forEach(imgData => { const div = document.createElement('div'); div.style.backgroundImage = `url(${imgData.url})`; div.style.backgroundSize = 'cover'; div.style.backgroundPosition = 'center'; div.style.width = '100%'; div.style.height = '100%'; div.style.borderRadius = '20px'; div.style.border = '2px solid var(--border-color)'; grid.appendChild(div); }); const collageElement = document.getElementById('collage-generator'); collageElement.style.opacity = '1'; setTimeout(() => { html2canvas(collageElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Collage_${hoyString()}.jpg`; collageElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Collage Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { collageElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 600); }
+
+        // --- PLANTILLAS EXCEL PARA IMPORTACIÓN ---
+        function descargarPlantillaClientas() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Ejemplo Maria", Telefono: "1155443322", Fecha: hoyString(), Servicio: "Color", Formula: "7.1 a 20 vol" }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Clientas");
+            XLSX.writeFile(wb, "Modelo_Clientas_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
+        function descargarPlantillaStock() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Codigo: "1001", Nombre: "Shampoo Neutro 1L", Costo: 3500, Precio: 6000, Cantidad: 12, Minimo: 3 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Stock");
+            XLSX.writeFile(wb, "Modelo_Stock_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
+        function descargarPlantillaCatalogo() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Corte Femenino", Precio: 8500 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Precios");
+            XLSX.writeFile(wb, "Modelo_Precios_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
     </script>
 </body>
 </html>
