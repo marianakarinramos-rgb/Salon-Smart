@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="luxe">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,20 +42,36 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     
     <style>
-        /* Variables Globales de Temas (Marca Blanca) */
-        :root, :root[data-theme="sky"] {
-            --bg-base: #ffffff;
-            --bg-pattern: #e0f2fe;
-            --bg-card: #ffffff;
-            --bg-panel: #f8fafc;
-            --border-color: #e2e8f0;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --primary-bg: #bae6fd;
-            --primary-hover: #7dd3fc;
-            --primary-text: #0c4a6e;
-            --primary-icon: #0ea5e9;
-            --primary-light: #e0f2fe;
+        /* 1. Alta Gama / Luxe - Tema por defecto */
+        :root, :root[data-theme="luxe"] {
+            --bg-base: #FAFAFA;
+            --bg-pattern: #F0F0F0;
+            --bg-card: #FFFFFF;
+            --bg-panel: #F5F5F5;
+            --border-color: #E5E5E5;
+            --text-main: #1A1A1A;
+            --text-muted: #A38A59; /* Dorado cobrizo */
+            --primary-bg: #1A1A1A; /* Negro absoluto para CTAs */
+            --primary-hover: #333333;
+            --primary-text: #FFFFFF;
+            --primary-icon: #A38A59;
+            --primary-light: #FDFBF7;
+        }
+
+        /* 2. Spa / Zen */
+        :root[data-theme="zen"] {
+            --bg-base: #F7F6F2;
+            --bg-pattern: #E8E5DC;
+            --bg-card: #FFFFFF;
+            --bg-panel: #EAE7DF;
+            --border-color: #DCD8CD;
+            --text-main: #4A443D;
+            --text-muted: #9C968A;
+            --primary-bg: #9C8E7D; /* Taupe / Arena oscuro */
+            --primary-hover: #8A7C6B;
+            --primary-text: #FFFFFF;
+            --primary-icon: #7A6E5D;
+            --primary-light: #EAE7DF;
         }
 
         :root[data-theme="dark"] {
@@ -88,21 +104,6 @@
             --primary-light: #fce7f3;
         }
 
-        :root[data-theme="mint"] {
-            --bg-base: #f8faf9;
-            --bg-pattern: #d1fae5;
-            --bg-card: #ffffff;
-            --bg-panel: #ecfdf5;
-            --border-color: #a7f3d0;
-            --text-main: #064e3b;
-            --text-muted: #059669;
-            --primary-bg: #a7f3d0;
-            --primary-hover: #6ee7b7;
-            --primary-text: #064e3b;
-            --primary-icon: #10b981;
-            --primary-light: #d1fae5;
-        }
-
         * { box-sizing: border-box; }
         
         body {
@@ -131,7 +132,6 @@
         .cargando-spinner { width: 32px; height: 32px; border: 3px solid var(--bg-panel); border-top-color: var(--primary-icon); border-radius: 50%; animation: spin 0.7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* Auto-estilo para inputs anclado a las variables del tema */
         input, select, textarea { 
             background-color: var(--bg-panel) !important; 
             border-color: var(--border-color) !important; 
@@ -141,7 +141,7 @@
         input:focus, select:focus, textarea:focus { 
             outline: none !important; 
             border-color: var(--primary-icon) !important; 
-            box-shadow: 0 0 5px var(--primary-bg) !important; 
+            box-shadow: 0 0 5px var(--primary-light) !important; 
             background-color: var(--bg-card) !important; 
         }
         
@@ -156,13 +156,11 @@
         input[type="date"]::-webkit-calendar-picker-indicator, input[type="month"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.5; transition: 0.2s; padding: 4px; }
         input[type="date"]::-webkit-calendar-picker-indicator:hover, input[type="month"]::-webkit-calendar-picker-indicator:hover, input[type="time"]::-webkit-calendar-picker-indicator:hover { opacity: 1; transform: scale(1.1); }
         
-        /* Corrección especial de contraste para iconos de calendario en Dark Mode */
         :root[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator, :root[data-theme="dark"] input[type="month"]::-webkit-calendar-picker-indicator, :root[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); }
 
         .tab-link { padding-top: 6px !important; padding-bottom: 6px !important; margin-bottom: 2px !important; font-size: 0.8rem !important; }
         .sidebar-section-title { margin-top: 8px !important; margin-bottom: 2px !important; }
 
-        /* Generadores Canvas */
         .flyer-preview { width: 1080px; height: 1920px; position: fixed; top: 0; left: 0; z-index: -9999; background-color: #111; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow: hidden; opacity: 0.01; pointer-events: none; }
         .flyer-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; opacity: 0.5; }
         .flyer-content { z-index: 2; text-align: center; padding: 80px; background: rgba(5,11,20,0.8); border-radius: 40px; border: 2px solid rgba(0,191,255,0.3); backdrop-filter: blur(8px); width: 80%; }
@@ -186,7 +184,13 @@
     <!-- HEADER SUPERIOR (mobile) -->
     <div class="fixed top-0 left-0 right-0 z-30 md:hidden bg-app-card border-b border-app-border text-app-text px-4 py-2 flex items-center justify-between shadow-sm">
         <span class="text-sm font-bold text-app-muted">Menú</span>
-        <button id="mobileSidebarToggle" class="text-app-icon text-xl" onclick="document.querySelector('aside').classList.toggle('hidden')"><i class="fas fa-bars"></i></button>
+        <div class="flex gap-4 items-center">
+            <button onclick="abrirModalRetencion()" class="relative text-app-icon text-xl">
+                <i class="fas fa-bell"></i>
+                <span id="badge-notif-mobile" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
+            </button>
+            <button id="mobileSidebarToggle" class="text-app-icon text-xl" onclick="document.querySelector('aside').classList.toggle('hidden')"><i class="fas fa-bars"></i></button>
+        </div>
     </div>
 
     <!-- Sidebar Menu -->
@@ -197,19 +201,18 @@
                 <label class="cursor-pointer block mb-1 group relative w-max mx-auto">
                     <img id="clientLogoPreview" src="https://via.placeholder.com/150/f1f5f9/64748b?text=Logo" class="w-10 h-10 object-cover rounded-lg border border-app-border group-hover:border-app-icon transition bg-app-card" alt="Logo">
                     <div class="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-[8px] font-bold text-white uppercase">Subir</span></div>
-                    <!-- Se acepta PNG, JPG, WEBP -->
                     <input type="file" id="clientLogoInput" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="procesarLogoSidebar(event)">
                 </label>
                 <input type="text" id="nombreComercioSide" class="bg-transparent border-b border-app-border font-bold text-xs focus:ring-0 w-full text-center text-app-text px-1 outline-none pb-1 placeholder-app-muted" value="MI NEGOCIO" readonly>
             </div>
 
             <nav id="mobile-menu" class="flex flex-col flex-1 overflow-y-auto pr-1">
-                <div class="text-[9px] font-bold text-emerald-500 uppercase tracking-widest px-2 sidebar-section-title">Primeros Pasos</div>
+                <div class="text-[9px] font-bold text-app-icon uppercase tracking-widest px-2 sidebar-section-title">Primeros Pasos</div>
                 <a href="#" onclick="switchTab('tab-manual', this)" class="tab-link active flex items-center px-3 text-app-textOn bg-app-primary font-bold rounded-lg transition mb-1 shadow-sm">
                     <i class="fas fa-book-open w-5 text-app-textOn opacity-80"></i> Manual
                 </a>
 
-                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Gestión Principal</div>
+                <div class="text-[9px] font-bold text-app-icon uppercase tracking-widest px-2 sidebar-section-title">Gestión Principal</div>
                 <a href="#" onclick="switchTab('tab-clientas', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
                     <i class="fas fa-users w-5"></i> Mis Clientes
                 </a>
@@ -220,7 +223,7 @@
                     <i class="fas fa-store w-5"></i> Lista Precios
                 </a>
                 
-                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Finanzas y Stock</div>
+                <div class="text-[9px] font-bold text-app-icon uppercase tracking-widest px-2 sidebar-section-title">Finanzas y Stock</div>
                 <a href="#" onclick="switchTab('tab-caja', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
                     <i class="fas fa-cash-register w-5"></i> Caja Diaria
                 </a>
@@ -231,12 +234,12 @@
                     <i class="fas fa-chart-line w-5"></i> Rentabilidad
                 </a>
 
-                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Marketing</div>
+                <div class="text-[9px] font-bold text-app-icon uppercase tracking-widest px-2 sidebar-section-title">Marketing</div>
                 <a href="#" onclick="switchTab('tab-redes', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
-                    <i class="fab fa-instagram w-5 text-[#a855f7]"></i> Reels / Redes
+                    <i class="fab fa-instagram w-5"></i> Reels / Redes
                 </a>
 
-                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title admin-only">Sistema</div>
+                <div class="text-[9px] font-bold text-app-icon uppercase tracking-widest px-2 sidebar-section-title admin-only">Sistema</div>
                 <a href="#" onclick="switchTab('tab-config', this)" class="admin-only tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
                     <i class="fas fa-cog w-5"></i> Configuración
                 </a>
@@ -244,7 +247,7 @@
 
             <div class="mt-1 pt-2 border-t border-app-border">
                 <button id="btn-lock" onclick="toggleLock()" class="w-full bg-app-panel border border-app-border hover:bg-app-border text-app-text py-1.5 rounded-lg font-bold transition flex items-center justify-center text-xs shadow-sm">
-                    <i class="fas fa-unlock mr-2 text-emerald-500"></i> Modo Admin
+                    <i class="fas fa-unlock mr-2 text-app-icon"></i> Modo Admin
                 </button>
             </div>
         </div>
@@ -255,7 +258,11 @@
 
         <div class="p-3 md:p-4 lg:p-6 max-w-[1400px] mx-auto w-full pt-12 md:pt-4">
             
-            <div class="flex justify-end mb-4 w-full hidden md:flex">
+            <div class="flex justify-end mb-4 w-full hidden md:flex gap-3">
+                <button onclick="abrirModalRetencion()" class="relative bg-app-card/80 backdrop-blur px-3 py-1.5 rounded-xl border border-app-border shadow-sm flex items-center hover:bg-app-panel transition" title="Recuperar Clientas">
+                    <i class="fas fa-bell text-app-icon text-lg"></i>
+                    <span id="badge-notif-desktop" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
+                </button>
                 <div class="flex items-center gap-3 bg-app-card/80 backdrop-blur px-3 py-1.5 rounded-xl border border-app-border shadow-sm">
                     <div class="text-right">
                         <span class="block text-sm font-bold text-app-text">Gesto <span class="text-app-icon">Smart</span></span>
@@ -277,8 +284,8 @@
                         <h3 class="text-sm font-bold text-app-text mb-1">1. Identidad y Accesos</h3>
                         <p class="text-[11px] text-app-muted mb-2 flex-grow">Tu negocio, tus reglas.</p>
                         <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Logo, Tema y Nombre:</strong> Cambialos en Configuración.</li>
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>PIN de Seguridad:</strong> Activá el Modo Empleada para ocultar tu rentabilidad.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Logo, Tema y Nombre:</strong> Cambialos en Configuración.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>PIN de Seguridad:</strong> Activá el Modo Empleada para ocultar tu rentabilidad.</li>
                         </ul>
                     </div>
                     <!-- Tarjeta 2 -->
@@ -287,8 +294,8 @@
                         <h3 class="text-sm font-bold text-app-text mb-1">2. Gestión de Clientes</h3>
                         <p class="text-[11px] text-app-muted mb-2 flex-grow">Historial simplificado y sin fricción.</p>
                         <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Carga en 1 Clic:</strong> Creá la clienta y anotá lo que se hizo hoy en una sola pantalla.</li>
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Ausentes:</strong> El sistema marca en rojo a quienes no vienen hace más de 90 días.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Carga en 1 Clic:</strong> Creá la clienta y anotá lo que se hizo hoy en una sola pantalla.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Ausentes:</strong> El sistema avisa arriba (campanita) si llevan +60 días.</li>
                         </ul>
                     </div>
                     <!-- Tarjeta 3 -->
@@ -297,18 +304,18 @@
                         <h3 class="text-sm font-bold text-app-text mb-1">3. Agenda Interactiva</h3>
                         <p class="text-[11px] text-app-muted mb-2 flex-grow">Turnos organizados visualmente.</p>
                         <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Alta rápida:</strong> Hacé clic directamente en el botón del día deseado y la fecha se precarga.</li>
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Días Hábiles:</strong> Excluye domingos y lunes por defecto.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Alta rápida:</strong> Hacé clic directamente en el botón del día deseado y la fecha se precarga.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Días Hábiles:</strong> Excluye domingos y lunes por defecto.</li>
                         </ul>
                     </div>
                     <!-- Tarjeta 4 -->
                     <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
-                        <div class="w-8 h-8 rounded-lg bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm mb-2"><i class="fab fa-instagram"></i></div>
+                        <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm mb-2"><i class="fab fa-instagram"></i></div>
                         <h3 class="text-sm font-bold text-app-text mb-1">4. Marketing Automático</h3>
                         <p class="text-[11px] text-app-muted mb-2 flex-grow">Ahorrá tiempo creando contenido.</p>
                         <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Flyers de Precios:</strong> Generalos con tu fondo y marca desde el Catálogo.</li>
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Copy para Redes:</strong> Buscá a la clienta y te arma el texto para Instagram.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Flyers de Precios:</strong> Generalos con tu fondo y marca desde el Catálogo.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Copy para Redes:</strong> Buscá a la clienta y te arma el texto para Instagram.</li>
                         </ul>
                     </div>
                     <!-- Tarjeta 5 -->
@@ -324,12 +331,12 @@
                     </div>
                     <!-- Tarjeta 6 -->
                     <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm mb-2"><i class="fas fa-chart-line"></i></div>
+                        <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm mb-2"><i class="fas fa-chart-line"></i></div>
                         <h3 class="text-sm font-bold text-app-text mb-1">6. Finanzas y Stock</h3>
                         <p class="text-[11px] text-app-muted mb-2 flex-grow">Métricas clave claras.</p>
                         <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Stock:</strong> 1 Unidad = 60 grs. Se fracciona automáticamente.</li>
-                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Balance Neta:</strong> Ingresos (Caja) - Gastos = Ganancia Limpia.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Stock:</strong> 1 Unidad = 60 grs. Se fracciona automáticamente.</li>
+                            <li><i class="fas fa-check text-app-icon mr-1"></i><strong>Balance Neta:</strong> Ingresos (Caja) - Gastos = Ganancia Limpia.</li>
                         </ul>
                     </div>
                 </div>
@@ -343,8 +350,8 @@
                         <button onclick="exportarExcelCompleto()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-download mr-1"></i> Respaldar Todo
                         </button>
-                        <button onclick="abrirModalImportarExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
-                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Pegar Excel
+                        <button onclick="abrirModalImportarExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1"></i> Pegar Excel
                         </button>
                         <button onclick="vaciarDatosMasivos('clientas')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-trash-alt mr-1"></i> Vaciar Clientes
@@ -361,15 +368,15 @@
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Total</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-total">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm"><i class="fas fa-heartbeat"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-heartbeat"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Activas(90d)</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-activas">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center text-sm"><i class="fas fa-user-clock"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-user-clock"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Ausentes</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-inactivas">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm"><i class="fas fa-sync-alt"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-sync-alt"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Visitas Prom.</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-promedio">0</h3></div>
                     </div>
                 </div>
@@ -393,7 +400,6 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-3">
                     <div><h2 class="text-2xl font-bold text-app-text mb-1">Agenda Semanal</h2><p class="text-app-muted text-xs">Organizá tus turnos.</p></div>
                     <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
-                        <button onclick="habilitarMartes()" class="bg-app-light text-app-icon border border-app-primary font-bold px-3 py-1.5 rounded-lg text-xs w-full md:w-auto shadow-sm hover:bg-app-primary transition"><i class="fas fa-plus mr-1"></i> Martes Excepción</button>
                         <div class="flex items-center gap-3 bg-app-card p-1.5 rounded-lg shadow-sm border border-app-border w-full md:w-auto justify-between">
                             <button onclick="cambiarSemanaAgenda(-1)" class="w-8 h-8 flex items-center justify-center rounded bg-app-panel border border-app-border text-app-muted hover:bg-app-border"><i class="fas fa-chevron-left text-xs"></i></button>
                             <span id="agenda-semana-label" class="font-bold text-app-text min-w-[130px] text-center text-xs">Semana Actual</span>
@@ -413,8 +419,8 @@
                         <button onclick="document.getElementById('flyer-bg-input').click()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-image mr-1"></i> Fondo Promo
                         </button>
-                        <button onclick="abrirModalImportarExcelCatalogo()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
-                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Cargar Lista
+                        <button onclick="abrirModalImportarExcelCatalogo()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1"></i> Cargar Lista
                         </button>
                         <button onclick="vaciarDatosMasivos('catalogo')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-trash-alt mr-1"></i> Vaciar Catálogo
@@ -442,7 +448,7 @@
                             <i class="far fa-calendar-alt text-app-icon mr-2 text-xs"></i>
                             <input type="date" id="fecha-caja" class="w-full border-none outline-none bg-transparent font-bold" onchange="renderCaja()">
                         </div>
-                        <button onclick="exportarCajaExcel()" class="hidden md:flex bg-emerald-200 hover:bg-emerald-300 text-emerald-900 px-4 py-1.5 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                        <button onclick="exportarCajaExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-4 py-1.5 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-download mr-2"></i> Exportar Cierre
                         </button>
                     </div>
@@ -466,27 +472,27 @@
                 </div>
 
                 <!-- CARGA DE CAJA -->
-                <div class="bg-app-card p-3 rounded-xl shadow-sm border border-app-icon mb-5 flex flex-wrap md:flex-nowrap gap-2 items-center">
-                    <input type="text" id="mov-entidad" list="caja-clientas-list" placeholder="Cliente (Insensible a mayúsculas)" onchange="autoCompletarCaja()" class="w-full md:w-1/4 rounded-lg px-3 py-2 text-xs">
+                <div class="bg-app-card p-3 rounded-xl shadow-sm border border-app-border mb-5 flex flex-wrap md:flex-nowrap gap-2 items-center">
+                    <input type="text" id="mov-entidad" list="caja-clientas-list" placeholder="Cliente (Insensible a mayúsculas)" onchange="autoCompletarCaja()" class="w-full md:w-1/4 rounded-lg px-3 py-2 text-xs border border-app-border">
                     <datalist id="caja-clientas-list"></datalist>
                     
-                    <input type="text" id="mov-detalle" list="caja-servicios-list" placeholder="Fórmula (Ej: Color 7.4 60g)" class="w-full md:w-1/3 rounded-lg px-3 py-2 text-xs">
+                    <input type="text" id="mov-detalle" list="caja-servicios-list" placeholder="Fórmula (Ej: Color 7.4 60g)" class="w-full md:w-1/3 rounded-lg px-3 py-2 text-xs border border-app-border">
                     <datalist id="caja-servicios-list"></datalist>
                     
                     <div class="flex gap-2 w-full md:w-auto">
-                        <select id="mov-metodo" class="w-1/2 md:w-28 rounded-lg px-2 py-2 text-xs">
+                        <select id="mov-metodo" class="w-1/2 md:w-28 rounded-lg px-2 py-2 text-xs border border-app-border">
                             <option value="Efectivo">Efectivo</option>
                             <option value="MercadoPago">MP / Trans</option>
                         </select>
                         <div class="relative w-1/2 md:w-28">
                             <span class="absolute left-2 top-2 text-app-muted font-bold text-xs">$</span>
-                            <input type="number" id="mov-monto" placeholder="Monto" class="w-full rounded-lg pl-6 pr-2 py-2 text-xs text-emerald-600 font-bold">
+                            <input type="number" id="mov-monto" placeholder="Monto" class="w-full rounded-lg pl-6 pr-2 py-2 text-xs text-app-icon font-bold border border-app-border">
                         </div>
                     </div>
                     
                     <div class="flex gap-2 w-full md:w-auto shrink-0">
-                        <button onclick="intentarCobro()" class="flex-1 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm border border-emerald-300">+ Cobro</button>
-                        <button onclick="guardarMovimiento('gasto')" class="flex-1 bg-rose-200 hover:bg-rose-300 text-rose-900 font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm border border-rose-300">- Gasto</button>
+                        <button onclick="intentarCobro()" class="flex-1 bg-app-primary text-app-textOn hover:bg-app-hover font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm">+ Cobro</button>
+                        <button onclick="guardarMovimiento('gasto')" class="flex-1 bg-rose-50 border border-rose-200 text-rose-600 font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm hover:bg-rose-100">- Gasto</button>
                     </div>
                 </div>
 
@@ -507,8 +513,8 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
                     <div><h2 class="text-2xl font-bold text-app-text mb-1">Control de Stock</h2><p class="text-app-muted text-xs">Inventario e insumos.</p></div>
                     <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
-                        <button onclick="abrirModalImportarExcelStock()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
-                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Subir Excel
+                        <button onclick="abrirModalImportarExcelStock()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1"></i> Subir Excel
                         </button>
                         <button onclick="vaciarDatosMasivos('stock')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
                             <i class="fas fa-trash-alt mr-1"></i> Vaciar Stock
@@ -525,15 +531,15 @@
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Artículos</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-items">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm"><i class="fas fa-layer-group"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-layer-group"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Unidades</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-unidades">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center text-sm"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-exclamation-triangle"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">En Alerta</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-alerta">0</h3></div>
                     </div>
                     <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-dollar-sign"></i></div>
                         <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Capital</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-capital">$0</h3></div>
                     </div>
                 </div>
@@ -590,7 +596,7 @@
                         </div>
                         <div class="flex justify-center gap-4 mt-3 text-[9px] font-bold text-app-muted uppercase tracking-wider"><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-300 mr-1"></span> Ingresos</div><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-rose-300 mr-1"></span> Vars.</div><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-amber-300 mr-1"></span> Fijos</div></div>
                     </div>
-
+                    
                     <div class="bg-app-panel border border-app-border rounded-2xl p-5 flex flex-col h-[320px]">
                         <h3 class="font-bold text-app-text mb-3 flex items-center justify-between text-sm"><span><i class="fas fa-house text-app-muted mr-2"></i> Gastos Fijos</span><button onclick="vaciarDatosMasivos('gastos')" class="text-[10px] text-rose-500 hover:text-rose-600 font-normal border border-rose-200 px-2 py-1 rounded bg-rose-100"><i class="fas fa-trash"></i> Vaciar</button></h3>
                         <div class="flex gap-2 mb-3 bg-app-card p-1.5 rounded-lg shadow-sm border border-app-border">
@@ -612,22 +618,22 @@
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div class="bg-app-card p-5 rounded-2xl shadow-sm border border-app-border">
-                        <h3 class="font-bold text-app-text text-base mb-3 flex items-center justify-between"><span><i class="fas fa-magic text-purple-500 mr-2"></i> Generador Textos</span><button onclick="generarCaption()" class="text-purple-500 hover:text-purple-600 text-xl transition transform hover:rotate-180"><i class="fas fa-dice"></i></button></h3>
+                        <h3 class="font-bold text-app-text text-base mb-3 flex items-center justify-between"><span><i class="fas fa-magic text-app-icon mr-2"></i> Generador Textos</span><button onclick="generarCaption()" class="text-app-icon hover:text-app-text text-xl transition transform hover:rotate-180"><i class="fas fa-dice"></i></button></h3>
                         <label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">Buscá una clienta</label>
                         <input type="text" id="redes-clienta-input" list="redes-clientas-list" placeholder="Ej: Mariana..." onchange="generarCaption()" class="w-full p-2.5 rounded-lg text-xs font-bold mb-3">
                         <label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">Texto listo</label>
                         <textarea id="redes-caption" class="w-full h-48 p-3 rounded-lg text-xs font-medium resize-none" placeholder="El texto generado aparecerá acá..."></textarea>
-                        <button onclick="copiarCaption()" class="w-full mt-3 bg-purple-200 hover:bg-purple-300 text-purple-900 font-bold py-2.5 rounded-lg transition shadow-sm border border-purple-300 flex items-center justify-center text-sm"><i class="far fa-copy mr-2"></i> Copiar Texto</button>
+                        <button onclick="copiarCaption()" class="w-full mt-3 bg-app-card hover:bg-app-panel text-app-icon font-bold py-2.5 rounded-lg transition shadow-sm border border-app-border flex items-center justify-center text-sm"><i class="far fa-copy mr-2"></i> Copiar Texto</button>
                     </div>
                     
                     <div class="bg-app-panel p-5 rounded-2xl border border-app-border shadow-sm">
-                        <h3 class="font-bold text-app-text text-base mb-3"><i class="fas fa-video text-rose-500 mr-2"></i> Vista Previa (Reels)</h3>
+                        <h3 class="font-bold text-app-text text-base mb-3"><i class="fas fa-video text-app-icon mr-2"></i> Vista Previa (Reels)</h3>
                         <div class="border-2 border-dashed border-app-border p-4 text-center rounded-xl bg-app-card relative hover:bg-app-panel cursor-pointer overflow-hidden flex flex-col items-center justify-center min-h-[120px] transition mb-3">
                             <input type="file" id="media-input" accept="video/mp4,video/quicktime,image/*" multiple onchange="previewMedia(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                             <i class="fas fa-cloud-upload-alt text-app-muted text-2xl mb-1 relative z-0"></i><p class="text-xs text-app-text font-bold relative z-0">Subir fotos/videos</p>
                         </div>
                         <div id="media-preview-container" class="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto pr-1"></div>
-                        <button id="btn-generar-collage" onclick="generarCollage()" class="w-full mt-3 bg-app-primary hover:bg-app-hover text-app-textOn font-bold py-2.5 rounded-lg transition shadow-sm border border-app-primary hidden items-center justify-center text-sm"><i class="fas fa-border-all mr-2"></i> Armar Collage</button>
+                        <button id="btn-generar-collage" onclick="generarCollage()" class="w-full mt-3 bg-app-primary hover:bg-app-hover text-app-textOn font-bold py-2.5 rounded-lg transition shadow-sm border border-app-border hidden items-center justify-center text-sm"><i class="fas fa-border-all mr-2"></i> Armar Collage</button>
                     </div>
                 </div>
             </div>
@@ -646,10 +652,10 @@
                         <label class="text-[10px] font-bold text-app-icon uppercase tracking-widest block mb-1"><i class="fas fa-palette mr-1"></i> Apariencia</label>
                         <p class="text-[11px] text-app-muted mb-4">Elegí la paleta de colores de tu sistema.</p>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            <button onclick="cambiarTema('sky')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#bae6fd] bg-[#f8fafc] text-[#0ea5e9] hover:bg-[#e0f2fe] shadow-sm">Sky Pastel</button>
+                            <button onclick="cambiarTema('luxe')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#1A1A1A] bg-[#FAFAFA] text-[#1A1A1A] hover:bg-[#F0F0F0] shadow-sm">Alta Gama</button>
+                            <button onclick="cambiarTema('zen')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#9C8E7D] bg-[#F7F6F2] text-[#9C8E7D] hover:bg-[#EAE7DF] shadow-sm">Spa Relax</button>
                             <button onclick="cambiarTema('dark')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#30363d] bg-[#0d1117] text-[#00bfff] hover:bg-[#161b22] shadow-sm">Dark Elegance</button>
                             <button onclick="cambiarTema('rose')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#fecdd3] bg-[#fff1f2] text-[#e11d48] hover:bg-[#fce7f3] shadow-sm">Rosé Glamour</button>
-                            <button onclick="cambiarTema('mint')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#a7f3d0] bg-[#ecfdf5] text-[#10b981] hover:bg-[#d1fae5] shadow-sm">Mint Natural</button>
                         </div>
                     </div>
 
@@ -666,10 +672,10 @@
                             <button onclick="guardarConfiguracion()" class="w-full bg-app-primary text-app-textOn border border-app-hover py-2.5 rounded-lg font-bold shadow-sm hover:bg-app-hover transition mt-5 text-sm">Guardar Datos</button>
                         </div>
                         
-                        <div class="bg-app-card p-5 rounded-xl border border-emerald-200 shadow-sm flex flex-col justify-center h-full">
-                            <label class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest block mb-1"><i class="fas fa-file-excel mr-1"></i> Exportar a Excel</label>
+                        <div class="bg-app-card p-5 rounded-xl border border-app-border shadow-sm flex flex-col justify-center h-full">
+                            <label class="text-[10px] font-bold text-app-icon uppercase tracking-widest block mb-1"><i class="fas fa-file-excel mr-1"></i> Exportar a Excel</label>
                             <p class="text-[11px] text-app-muted mb-5">Descargá una copia de seguridad de absolutamente toda la información y base de clientes en un solo click.</p>
-                            <button onclick="exportarExcelCompleto()" class="w-full bg-emerald-200 text-emerald-900 border border-emerald-300 py-3 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Descargar Base Completa</button>
+                            <button onclick="exportarExcelCompleto()" class="w-full bg-app-card border border-app-border text-app-icon py-3 rounded-lg font-bold shadow-sm hover:bg-app-panel transition text-sm">Descargar Base Completa</button>
                         </div>
                     </div>
 
@@ -679,8 +685,7 @@
         </div>
     </main>
 
-    <!-- ================= MODALES ================= -->
-    
+    <!-- ================= MODALES ================= -->    
     <div id="modal-confirm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden text-center p-6 fade-in">
             <div class="w-12 h-12 bg-rose-100 text-rose-600 border border-rose-200 rounded-full flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-exclamation-triangle"></i></div>
@@ -689,6 +694,20 @@
             <div class="flex gap-2">
                 <button onclick="cerrarModal('modal-confirm')" class="flex-1 bg-app-panel text-app-text border border-app-border py-2.5 rounded-lg font-bold hover:bg-app-border transition text-sm">Cancelar</button>
                 <button id="btn-confirmar-accion" class="flex-1 bg-rose-500 text-white border border-rose-600 py-2.5 rounded-lg font-bold hover:bg-rose-600 transition shadow-sm text-sm">Sí, confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Retención (NUEVO) -->
+    <div id="modal-retencion" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden fade-in flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center">
+                <h3 class="text-lg font-bold text-app-text"><i class="fas fa-bell text-app-icon mr-2"></i>Recuperar Clientas</h3>
+                <button onclick="cerrarModal('modal-retencion')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-grow bg-app-card">
+                <p class="text-[10px] text-app-muted mb-4 font-bold uppercase tracking-widest text-center">Ausentes por más de 60 días</p>
+                <div id="lista-retencion" class="space-y-2"></div>
             </div>
         </div>
     </div>
@@ -715,12 +734,11 @@
                 </div>
 
                 <h4 class="font-bold text-app-text mb-2 text-[9px] uppercase tracking-widest">Historial Clínico Histórico</h4>
-                <!-- CÓDIGO CORREGIDO PARA QUE PERMITA HACER CLIC Y ELIMINAR VISITAS -->
                 <div id="historial-lista-solo-lectura" class="space-y-1.5 opacity-80"></div>
             </div>
             <div class="p-3 border-t border-app-border bg-app-panel flex justify-end gap-2">
                 <button onclick="cerrarModal('modal-ficha')" class="text-app-muted font-bold px-3 py-2 hover:bg-app-border rounded-lg hidden md:block border border-transparent transition text-xs">Cancelar</button>
-                <button onclick="guardarClientaYVisita()" class="w-full md:w-auto bg-emerald-200 border border-emerald-300 text-emerald-900 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Guardar Ficha Completa</button>
+                <button onclick="guardarClientaYVisita()" class="w-full md:w-auto bg-app-primary border border-app-hover text-app-textOn px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition text-sm">Guardar Ficha Completa</button>
             </div>
         </div>
     </div>
@@ -728,14 +746,13 @@
     <!-- Modales Importar/Stock -->
     <div id="modal-importar" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
-            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Clientas</h3><button onclick="cerrarModal('modal-importar')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CLIENTAS -->
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Pegar Clientas</h3><button onclick="cerrarModal('modal-importar')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="px-5 pt-4 pb-1 flex justify-between items-center">
                 <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
-                <button onclick="descargarPlantillaClientas()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+                <button onclick="descargarPlantillaClientas()" class="text-[10px] bg-app-card text-app-icon border border-app-border px-3 py-1.5 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
             </div>
-            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Teléfono | Fecha | Servicio | Fórmula"></textarea></div>
-            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoExcel()" class="bg-emerald-200 border border-emerald-300 text-emerald-900 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar Datos</button></div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-app-icon font-bold whitespace-pre" placeholder="Nombre | Teléfono | Fecha | Servicio | Fórmula"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoExcel()" class="bg-app-primary border border-app-hover text-app-textOn px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition text-sm">Importar Datos</button></div>
         </div>
     </div>
 
@@ -754,14 +771,13 @@
 
     <div id="modal-importar-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
-            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Stock</h3><button onclick="cerrarModal('modal-importar-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA STOCK -->
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Pegar Stock</h3><button onclick="cerrarModal('modal-importar-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="px-5 pt-4 pb-1 flex justify-between items-center">
                 <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
-                <button onclick="descargarPlantillaStock()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+                <button onclick="descargarPlantillaStock()" class="text-[10px] bg-app-card text-app-icon border border-app-border px-3 py-1.5 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
             </div>
-            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-stock" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Código | Nombre | Costo | Precio | Cant | Min"></textarea></div>
-            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoStock()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-stock" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-app-icon font-bold whitespace-pre" placeholder="Código | Nombre | Costo | Precio | Cant | Min"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoStock()" class="bg-app-primary text-app-textOn border border-app-hover px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition text-sm">Importar</button></div>
         </div>
     </div>
 
@@ -771,7 +787,7 @@
             <div class="p-4 space-y-3">
                 <input type="hidden" id="servicio-id">
                 <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Nombre</label><input type="text" id="servicio-nombre" class="w-full p-2 rounded-lg text-xs font-bold"></div>
-                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Precio $</label><input type="number" id="servicio-precio" class="w-full p-2 rounded-lg font-bold text-base !text-emerald-600"></div>
+                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Precio $</label><input type="number" id="servicio-precio" class="w-full p-2 rounded-lg font-bold text-base !text-app-icon"></div>
             </div>
             <div class="p-3 border-t border-app-border bg-app-panel flex justify-end"><button onclick="guardarServicio()" class="bg-app-primary text-app-textOn border border-app-hover px-5 py-2 w-full rounded-lg font-bold shadow-sm hover:bg-app-hover text-sm">Guardar</button></div>
         </div>
@@ -779,14 +795,13 @@
     
     <div id="modal-importar-catalogo" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
-            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Precios</h3><button onclick="cerrarModal('modal-importar-catalogo')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
-            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CATÁLOGO -->
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Pegar Precios</h3><button onclick="cerrarModal('modal-importar-catalogo')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="px-5 pt-4 pb-1 flex justify-between items-center">
                 <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
-                <button onclick="descargarPlantillaCatalogo()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+                <button onclick="descargarPlantillaCatalogo()" class="text-[10px] bg-app-card text-app-icon border border-app-border px-3 py-1.5 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
             </div>
-            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-catalogo" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Precio"></textarea></div>
-            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoCatalogo()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-catalogo" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-app-icon font-bold whitespace-pre" placeholder="Nombre | Precio"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoCatalogo()" class="bg-app-primary text-app-textOn border border-app-hover px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition text-sm">Importar</button></div>
         </div>
     </div>
 
@@ -807,7 +822,7 @@
         </div>
     </div>
 
-    <!-- MODAL STOCK CÁLCULO INTELIGENTE GRAMOS (SOLUCIÓN UX + PARSER) -->
+    <!-- MODAL STOCK CÁLCULO INTELIGENTE GRAMOS -->
     <div id="modal-cobro-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[110] p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-md shadow-2xl overflow-hidden fade-in">
             <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center">
@@ -825,7 +840,7 @@
             </div>
             <div class="p-3 border-t border-app-border bg-app-panel flex justify-end gap-2">
                 <button onclick="ejecutarCobroPendiente(); cerrarModal('modal-cobro-stock')" class="w-1/3 bg-app-card border border-app-border text-app-muted py-2 rounded-lg font-bold hover:bg-app-panel transition text-sm">Omitir</button>
-                <button onclick="confirmarCobroYStock()" class="w-2/3 bg-emerald-200 border border-emerald-300 text-emerald-900 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Descontar y Cobrar</button>
+                <button onclick="confirmarCobroYStock()" class="w-2/3 bg-app-primary text-app-textOn py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition text-sm">Descontar y Cobrar</button>
             </div>
         </div>
     </div>
@@ -837,7 +852,7 @@
         <div class="flex gap-3 mt-6 w-full max-w-sm"><button onclick="cerrarModal('modal-flyer-resultado')" class="flex-1 bg-app-card border border-app-border text-app-muted py-2.5 rounded-lg font-bold hover:bg-app-panel transition text-sm shadow-sm">Cerrar</button><a id="btn-descargar-flyer" href="#" class="flex-1 bg-app-primary border border-app-primary text-app-textOn py-2.5 rounded-lg font-bold flex justify-center items-center shadow-sm hover:bg-app-hover transition text-sm"><i class="fas fa-download mr-1"></i> Descargar</a></div>
     </div>
 
-    <div id="flyer-generator" class="flyer-preview"><div id="flyer-img" class="flyer-bg"></div><div class="flyer-content"><h1 id="flyer-marca" class="text-[40px] font-bold tracking-[0.2em] text-white uppercase leading-none drop-shadow-xl mb-16">MI NEGOCIO</h1><h2 id="flyer-titulo" class="text-[80px] font-bold mb-10 leading-tight text-white tracking-wide">Servicio</h2><div class="inline-block bg-[#bae6fd] text-[#0f172a] px-16 py-6 rounded-full border-4 border-white shadow-xl transform -rotate-2"><span class="text-[50px] font-medium mr-2">$</span><span id="flyer-precio" class="text-[100px] font-black tracking-tighter">0</span></div></div></div>
+    <div id="flyer-generator" class="flyer-preview"><div id="flyer-img" class="flyer-bg"></div><div class="flyer-content"><h1 id="flyer-marca" class="text-[40px] font-bold tracking-[0.2em] text-white uppercase leading-none drop-shadow-xl mb-16">MI NEGOCIO</h1><h2 id="flyer-titulo" class="text-[80px] font-bold mb-10 leading-tight text-white tracking-wide">Servicio</h2><div class="inline-block bg-[#1A1A1A] text-[#FFFFFF] px-16 py-6 rounded-full border-4 border-white shadow-xl transform -rotate-2"><span class="text-[50px] font-medium mr-2">$</span><span id="flyer-precio" class="text-[100px] font-black tracking-tighter">0</span></div></div></div>
     <div id="collage-generator" class="collage-preview"><div id="collage-grid" class="collage-grid"></div><div class="collage-watermark font-sans border-t border-app-border pt-6" id="collage-marca">MI NEGOCIO</div></div>
 
     <script>
@@ -848,9 +863,8 @@
         let turnos = JSON.parse(localStorage.getItem('yes_turnos')) || [];
         let gastosFijos = JSON.parse(localStorage.getItem('yes_gastos_fijos')) || [];
         
-        // Lógica de Persistencia de Tema
-        let appConfig = JSON.parse(localStorage.getItem('yes_config')) || { pin: "", nombreEmpresa: 'Mi Salón', logoBase64: '', tema: 'sky' };
-        document.documentElement.setAttribute('data-theme', appConfig.tema || 'sky');
+        let appConfig = JSON.parse(localStorage.getItem('yes_config')) || { pin: "", nombreEmpresa: 'Mi Salón', logoBase64: '', tema: 'luxe' };
+        document.documentElement.setAttribute('data-theme', appConfig.tema || 'luxe');
 
         let fondoFlyerGlobal = localStorage.getItem('yes_fondo_flyer') || null;
 
@@ -870,9 +884,9 @@
         
         let fechaAgendaGlobal = new Date(); 
         let cobroPendiente = null; 
-        let martesHabilitado = false;
         let rotadorCaption = 0;
         let appLocked = false;
+        let clientasAusentesGlobal = []; 
 
         function cambiarTema(tema) {
             document.documentElement.setAttribute('data-theme', tema);
@@ -886,18 +900,13 @@
             document.querySelectorAll('.tab-link').forEach(link => {
                 link.classList.remove('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'text-app-text', 'shadow-sm');
                 link.classList.add('text-app-muted', 'hover:bg-app-panel', 'hover:text-app-text', 'font-medium');
-                // Restaurar opacidad de icono
                 let icon = link.querySelector('i');
                 if(icon) icon.classList.remove('opacity-80');
             });
             document.getElementById(tabId).classList.remove('hidden');
             if(el) { 
-                el.classList.remove('text-app-muted', 'hover:bg-app-panel', 'hover:text-app-text', 'font-medium'); 
-                if(tabId === 'tab-manual') {
-                    el.classList.add('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'shadow-sm');
-                } else {
-                    el.classList.add('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'shadow-sm'); 
-                }
+                el.classList.remove('text-app-muted', 'hover:bg-app-panel', 'hover:text-app-text', 'font-medium');
+                el.classList.add('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'shadow-sm');
                 let icon = el.querySelector('i');
                 if(icon) icon.classList.add('opacity-80');
             }
@@ -924,9 +933,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             if(appConfig.pin && appConfig.pin.trim() !== "") { bloquearApp(); document.getElementById('pantalla-bloqueo').style.display = 'flex'; }
             document.getElementById('fecha-caja').value = hoyString(); document.getElementById('filtro-mes-rentabilidad').value = hoyString().substring(0, 7);
+            
             let hoyObj = new Date(); let diaSem = hoyObj.getDay(); let offset = 0;
-            if (diaSem === 0) offset = 3; else if (diaSem === 1) offset = 2; else if (diaSem === 2) offset = 1; else offset = 3 - diaSem; 
+            if (diaSem === 0) offset = 2; else if (diaSem === 1) offset = 1; else offset = 2 - diaSem; 
             fechaAgendaGlobal = new Date(hoyObj); fechaAgendaGlobal.setDate(hoyObj.getDate() + offset);
+            
             aplicarConfiguracion(); actualizarDatalists();
             const tabM = document.querySelector('.tab-link[onclick*="tab-manual"]');
             if(tabM) switchTab('tab-manual', tabM);
@@ -935,7 +946,6 @@
         // -------------------------------------------------------------
         // FUNCIONES DE EXCEL
         // -------------------------------------------------------------
-        
         function exportarExcelCompleto() {
             mostrarToast('Generando Base de Datos...', 'bg-app-primary text-app-textOn');
             const wb = XLSX.utils.book_new();
@@ -950,35 +960,7 @@
             const wsStock = XLSX.utils.json_to_sheet(stockData); XLSX.utils.book_append_sheet(wb, wsStock, "Stock_Actual");
 
             XLSX.writeFile(wb, `GestoSmart_BackUp_${hoyString()}.xlsx`);
-            mostrarToast('¡Excel descargado!', 'bg-emerald-200 text-emerald-900');
-        }
-
-        function exportarCajaExcel() {
-            if(caja.length === 0) return mostrarToast('No hay datos en la caja para exportar.', 'bg-rose-200 text-rose-900');
-            mostrarToast('Generando Cierre de Caja...', 'bg-app-primary text-app-textOn');
-            
-            const wb = XLSX.utils.book_new();
-            
-            const detalleData = caja.sort((a,b) => new Date(b.fecha) - new Date(a.fecha)).map(m => ({
-                "Fecha": m.fecha, "Hora": m.hora || '-', "Tipo": m.tipo.toUpperCase(), "Cliente / Concepto": m.concepto, "Servicio / Fórmula": m.detalle || '-', "Método de Pago": m.metodo, "Ingreso ($)": m.tipo === 'ingreso' ? m.monto : 0, "Egreso ($)": m.tipo === 'gasto' ? m.monto : 0
-            }));
-            const wsDetalle = XLSX.utils.json_to_sheet(detalleData); XLSX.utils.book_append_sheet(wb, wsDetalle, "Detalle_Movimientos");
-
-            const resumenMap = {};
-            caja.forEach(m => {
-                if(!resumenMap[m.fecha]) resumenMap[m.fecha] = { Ingreso_Efvo: 0, Ingreso_MP: 0, Egresos: 0 };
-                if(m.tipo === 'ingreso') { if(m.metodo === 'Efectivo') resumenMap[m.fecha].Ingreso_Efvo += m.monto; else resumenMap[m.fecha].Ingreso_MP += m.monto; } else { resumenMap[m.fecha].Egresos += m.monto; }
-            });
-            
-            const resumenData = Object.keys(resumenMap).sort((a,b)=>new Date(b)-new Date(a)).map(fecha => {
-                const r = resumenMap[fecha]; const totalIngresos = r.Ingreso_Efvo + r.Ingreso_MP;
-                return { "Fecha del Cierre": fecha, "Ingresos Efectivo ($)": r.Ingreso_Efvo, "Ingresos MP/Transf ($)": r.Ingreso_MP, "Total Ingresos ($)": totalIngresos, "Total Gastos ($)": r.Egresos, "GANANCIA NETA ($)": totalIngresos - r.Egresos };
-            });
-            const wsResumen = XLSX.utils.json_to_sheet(resumenData); XLSX.utils.book_append_sheet(wb, wsResumen, "Cierres_Diarios");
-
-            const nombreNegocio = (appConfig.nombreEmpresa || 'Mi_Salon').replace(/\s+/g, '_');
-            XLSX.writeFile(wb, `Cierre_Caja_${nombreNegocio}_${hoyString()}.xlsx`);
-            mostrarToast('¡Excel de Caja descargado!', 'bg-emerald-200 text-emerald-900');
+            mostrarToast('¡Excel descargado!', 'bg-app-primary text-app-textOn');
         }
 
         function actualizarDatalists() {
@@ -994,6 +976,7 @@
             const clientPreview = document.getElementById('clientLogoPreview');
             if(appConfig.logoBase64) { clientPreview.src = appConfig.logoBase64; } else { clientPreview.src = 'https://via.placeholder.com/150/f8fafc/64748b?text=Mi+Logo'; }
         }
+        
         function procesarLogoSidebar(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { appConfig.logoBase64 = event.target.result; localStorage.setItem('yes_config', JSON.stringify(appConfig)); aplicarConfiguracion(); }; reader.readAsDataURL(file); }
         
         function guardarConfiguracion() { 
@@ -1001,19 +984,78 @@
             appConfig.nombreEmpresa = document.getElementById('conf-empresa-nombre').value.trim() || 'Mi Salón';
             localStorage.setItem('yes_config', JSON.stringify(appConfig)); 
             aplicarConfiguracion(); 
-            mostrarToast("Configuración guardada", "bg-emerald-200 text-emerald-900"); 
+            mostrarToast("Configuración guardada", "bg-app-primary text-app-textOn"); 
             if(appConfig.pin) bloquearApp(); 
         }
 
-        function verificarPin() { const val = document.getElementById('input-pin-ingreso').value; if(val === appConfig.pin) { document.getElementById('pantalla-bloqueo').style.display = 'none'; desbloquearApp(); mostrarToast("Modo Admin Desbloqueado", "bg-emerald-200 text-emerald-900"); actualizarUI(); } else { mostrarToast("PIN Incorrecto", "bg-rose-200 text-rose-900"); document.getElementById('input-pin-ingreso').value = ""; } }
+        function verificarPin() { const val = document.getElementById('input-pin-ingreso').value; if(val === appConfig.pin) { document.getElementById('pantalla-bloqueo').style.display = 'none'; desbloquearApp(); mostrarToast("Modo Admin Desbloqueado", "bg-app-primary text-app-textOn"); actualizarUI(); } else { mostrarToast("PIN Incorrecto", "bg-rose-200 text-rose-900"); document.getElementById('input-pin-ingreso').value = ""; } }
         function toggleLock() { if(appLocked) { document.getElementById('input-pin-ingreso').value = ''; document.getElementById('pantalla-bloqueo').style.display = 'flex'; } else { if(!appConfig.pin || appConfig.pin === '') return mostrarToast('Configurá un PIN en Configuración', 'bg-amber-200 text-amber-900'); bloquearApp(); mostrarToast('Modo Empleada Activado', 'bg-app-primary text-app-textOn'); } }
         function bloquearApp() { appLocked = true; document.body.classList.add('app-locked'); document.getElementById('btn-lock').innerHTML = '<i class="fas fa-lock mr-2 text-rose-500"></i> Modo Empleada'; const tabActual = document.querySelector('.tab-content:not(.hidden)')?.id; if(['tab-rentabilidad', 'tab-config'].includes(tabActual)) { switchTab('tab-clientas', document.querySelector('.tab-link[onclick*="tab-clientas"]')); } else { actualizarUI(); } }
-        function desbloquearApp() { appLocked = false; document.body.classList.remove('app-locked'); document.getElementById('btn-lock').innerHTML = '<i class="fas fa-unlock mr-2 text-emerald-500"></i> Modo Admin'; actualizarUI(); }
+        function desbloquearApp() { appLocked = false; document.body.classList.remove('app-locked'); document.getElementById('btn-lock').innerHTML = '<i class="fas fa-unlock mr-2 text-app-icon"></i> Modo Admin'; actualizarUI(); }
 
         function actualizarUI() {
             try { renderClientas(); actualizarEstadisticas(); } catch(e) {} try { renderAgendaSemanal(); } catch(e) {} try { renderCatalogo(); } catch(e) {} try { renderStock(); } catch(e) {}
             if(!appLocked) { try { renderCaja(); } catch(e) {} try { renderRentabilidad(); } catch(e) {} try { actualizarDropdownRedes(); } catch(e) {} }
         }
+
+        // --- SISTEMA DE RETENCIÓN DE CLIENTES ---
+        function calcularAusentes() {
+            const hoy = new Date();
+            const limiteDias = 60 * 24 * 60 * 60 * 1000;
+            clientasAusentesGlobal = [];
+            clientas.forEach(c => {
+                if(c.visitas && c.visitas.length > 0) {
+                    const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha.replace(/\//g,'-'))-new Date(a.fecha.replace(/\//g,'-')));
+                    const uFecha = sorted[0].fecha;
+                    const p = uFecha.split(uFecha.includes('-') ? '-' : '/');
+                    const ultV = p.length === 3 ? (uFecha.includes('-') ? new Date(p[0], p[1]-1, p[2]) : new Date(p[2], p[1]-1, p[0])) : new Date(uFecha);
+                    
+                    const diffDias = Math.floor((hoy - ultV) / (1000 * 60 * 60 * 24));
+                    if(diffDias >= 60) {
+                        clientasAusentesGlobal.push({ ...c, diasAusente: diffDias });
+                    }
+                }
+            });
+            clientasAusentesGlobal.sort((a,b) => b.diasAusente - a.diasAusente);
+            
+            const badgeD = document.getElementById('badge-notif-desktop');
+            const badgeM = document.getElementById('badge-notif-mobile');
+            if(clientasAusentesGlobal.length > 0) {
+                if(badgeD) { badgeD.innerText = clientasAusentesGlobal.length; badgeD.classList.remove('hidden'); }
+                if(badgeM) { badgeM.innerText = clientasAusentesGlobal.length; badgeM.classList.remove('hidden'); }
+            } else {
+                if(badgeD) badgeD.classList.add('hidden');
+                if(badgeM) badgeM.classList.add('hidden');
+            }
+        }
+
+        function abrirModalRetencion() {
+            const cont = document.getElementById('lista-retencion');
+            if(clientasAusentesGlobal.length === 0) {
+                cont.innerHTML = `<p class="text-center text-app-muted py-6 font-bold text-sm">¡Excelente! No tenés clientas ausentes por más de 60 días.</p>`;
+            } else {
+                cont.innerHTML = clientasAusentesGlobal.map(c => `
+                    <div class="bg-app-panel border border-app-border p-3 rounded-xl flex justify-between items-center shadow-sm hover:border-app-icon transition">
+                        <div>
+                            <h4 class="font-bold text-app-text text-sm">${c.nombre}</h4>
+                            <p class="text-[10px] text-rose-500 font-bold">Ausente: ${c.diasAusente} días</p>
+                        </div>
+                        <button onclick="contactarAusente('${c.nombre}', '${c.tel||''}', ${c.diasAusente})" class="bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-bold px-3 py-1.5 rounded-lg hover:bg-[#25D366]/20 transition text-xs shadow-sm flex items-center">
+                            <i class="fab fa-whatsapp mr-1.5 text-sm"></i> Recuperar
+                        </button>
+                    </div>
+                `).join('');
+            }
+            abrirModalUI('modal-retencion');
+        }
+
+        function contactarAusente(nombre, tel, dias) {
+            if(!tel || tel.trim() === "") return mostrarToast('Clienta sin celular cargado', 'bg-rose-200 text-rose-900');
+            const nom = nombre.split(' ')[0];
+            const msj = `¡Hola ${nom}! ✨ Desde ${appConfig.nombreEmpresa || 'el salón'} notamos que hace un tiempito no te vemos. ¿Querés que te busquemos un turnito para estos días para mantener tu look impecable? 💕`;
+            window.open(`https://wa.me/${tel.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msj)}`, '_blank');
+        }
+
 
         // --- CLIENTAS ---
         function formatearFechaAr(fechaStr) { if(!fechaStr) return ''; if(fechaStr.includes('/')) return fechaStr; const [y,m,d] = fechaStr.split('-'); return `${d}/${m}/${y}`; }
@@ -1026,7 +1068,7 @@
             grid.innerHTML = filtradas.length ? filtradas.map(c => {
                 const totalV = c.visitas ? c.visitas.length : 0; let ultV = null; if(totalV > 0) { const sortedVisitas = [...c.visitas].sort((a,b) => new Date(a.fecha) - new Date(b.fecha)); ultV = sortedVisitas[sortedVisitas.length-1]; }
                 const fechaMostrar = ultV ? formatearFechaAr(ultV.fecha) : '-'; const formulaMostrar = ultV && ultV.formula ? ultV.formula : (ultV ? ultV.servicio : 'Sin historial');
-                const botonContacto = (c.tel && c.tel.trim() !== "") ? `<a href="https://wa.me/${c.tel.replace(/[^0-9]/g, '')}" target="_blank" onclick="event.stopPropagation();" class="block w-full text-center bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold py-2 rounded-lg hover:bg-emerald-200 transition text-xs shadow-sm"><i class="fab fa-whatsapp text-sm align-middle mr-1"></i> WhatsApp</a>` : `<button onclick="event.stopPropagation(); editarClienta('${c.id}')" class="block w-full text-center bg-app-panel border border-app-border text-app-muted font-bold py-2 rounded-lg hover:bg-app-border transition text-xs"><i class="fas fa-phone-slash text-sm align-middle mr-1"></i> Cargar Celular</button>`;
+                const botonContacto = (c.tel && c.tel.trim() !== "") ? `<a href="https://wa.me/${c.tel.replace(/[^0-9]/g, '')}" target="_blank" onclick="event.stopPropagation();" class="block w-full text-center bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-bold py-2 rounded-lg hover:bg-[#25D366]/20 transition text-xs shadow-sm"><i class="fab fa-whatsapp text-sm align-middle mr-1"></i> WhatsApp</a>` : `<button onclick="event.stopPropagation(); editarClienta('${c.id}')" class="block w-full text-center bg-app-panel border border-app-border text-app-muted font-bold py-2 rounded-lg hover:bg-app-border transition text-xs"><i class="fas fa-phone-slash text-sm align-middle mr-1"></i> Cargar Celular</button>`;
                 return `
                 <div class="bg-app-card border border-app-border rounded-2xl p-4 shadow-sm relative group cursor-pointer hover:border-app-primary transition flex flex-col h-full" onclick="editarClienta('${c.id}')">
                     <button onclick="event.stopPropagation(); borrarClienta('${c.id}')" class="absolute top-3 right-3 text-app-muted hover:text-rose-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition z-10"><i class="fas fa-trash"></i></button>
@@ -1050,7 +1092,6 @@
             abrirModalUI('modal-ficha'); 
         }
         
-        // MODIFICACIÓN UX: Botón de borrado dentro del historial
         function editarClienta(id) { 
             const c = clientas.find(x => x.id === id); 
             document.getElementById('titulo-modal-ficha').innerText = 'Ficha: ' + c.nombre; 
@@ -1077,17 +1118,16 @@
             abrirModalUI('modal-ficha'); 
         }
 
-        // NUEVA FUNCIÓN: Permite borrar una visita específica si te equivocaste
         function borrarVisita(clienteId, visitaId) {
             pedirConfirmacion('¿Borrar esta visita del historial?', () => {
                 let c = clientas.find(x => x.id === clienteId);
                 if(c) {
                     c.visitas = c.visitas.filter(v => v.id !== visitaId);
                     guardarBD();
-                    editarClienta(clienteId); // Recarga el modal al instante
-                    renderClientas(); // Actualiza la grilla de fondo
+                    editarClienta(clienteId); 
+                    renderClientas(); 
                     actualizarEstadisticas();
-                    mostrarToast('Visita eliminada', 'bg-emerald-200 text-emerald-900');
+                    mostrarToast('Visita eliminada', 'bg-app-primary text-app-textOn');
                 }
             });
         }
@@ -1121,18 +1161,31 @@
                 }
             }
 
-            guardarBD(); cerrarModal('modal-ficha'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast('Ficha guardada', 'bg-emerald-200 text-emerald-900'); 
+            guardarBD(); cerrarModal('modal-ficha'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast('Ficha guardada', 'bg-app-primary text-app-textOn'); 
         }
 
         function borrarClienta(id) { pedirConfirmacion('¿Borrar clienta?', () => { clientas = clientas.filter(x=>x.id!==id); guardarBD(); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); }); }
         
-        function actualizarEstadisticas() { const total = clientas.length; let activas = 0; let inactivas = 0; let totalV = 0; const hoy = new Date(); const limiteDias = 90 * 24 * 60 * 60 * 1000; clientas.forEach(c => { if(c.visitas && c.visitas.length > 0) { totalV += c.visitas.length; const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)); let fechaUltimaStr = sorted[0].fecha; let partes = fechaUltimaStr.split(fechaUltimaStr.includes('-') ? '-' : '/'); let ultV = partes.length === 3 ? (fechaUltimaStr.includes('-') ? new Date(partes[0], partes[1]-1, partes[2]) : new Date(partes[2], partes[1]-1, partes[0])) : new Date(fechaUltimaStr); if((hoy - ultV) <= limiteDias) activas++; else inactivas++; } else { inactivas++; } }); document.getElementById('stat-total').innerText = total; document.getElementById('stat-activas').innerText = activas; document.getElementById('stat-inactivas').innerText = inactivas; document.getElementById('stat-promedio').innerText = total > 0 ? (totalV / total).toFixed(1) : 0; }
+        function actualizarEstadisticas() { 
+            const total = clientas.length; let activas = 0; let inactivas = 0; let totalV = 0; const hoy = new Date(); const limiteDias = 90 * 24 * 60 * 60 * 1000; 
+            clientas.forEach(c => { 
+                if(c.visitas && c.visitas.length > 0) { 
+                    totalV += c.visitas.length; 
+                    const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)); 
+                    let fechaUltimaStr = sorted[0].fecha; 
+                    let partes = fechaUltimaStr.split(fechaUltimaStr.includes('-') ? '-' : '/'); 
+                    let ultV = partes.length === 3 ? (fechaUltimaStr.includes('-') ? new Date(partes[0], partes[1]-1, partes[2]) : new Date(partes[2], partes[1]-1, partes[0])) : new Date(fechaUltimaStr); 
+                    if((hoy - ultV) <= limiteDias) activas++; else inactivas++; 
+                } else { inactivas++; } 
+            }); 
+            document.getElementById('stat-total').innerText = total; document.getElementById('stat-activas').innerText = activas; document.getElementById('stat-inactivas').innerText = inactivas; document.getElementById('stat-promedio').innerText = total > 0 ? (totalV / total).toFixed(1) : 0; 
+            calcularAusentes();
+        }
         
         function abrirModalImportarExcel() { document.getElementById('texto-excel').value = ''; abrirModalUI('modal-importar'); }
-        function procesarPegadoExcel() { const texto = document.getElementById('texto-excel').value.trim(); if(!texto) return; const filas = texto.split('\n'); let lastNombre = ""; let importadas = 0; filas.forEach(filaStr => { const cols = filaStr.split('\t').map(c => c.trim()); if(cols.length < 3) return; let nombre = cols[0].replace(/\s+/g, ' '); if(nombre === "" && lastNombre !== "") nombre = lastNombre; else if(nombre !== "") lastNombre = nombre; if(!nombre || nombre.toLowerCase() === "nombre") return; const tel = cols[1] || ""; let fechaStr = cols[2] || hoyString(); if(fechaStr.includes('/')) { const p = fechaStr.split('/'); if(p.length===3) fechaStr = `${p[2].length===2?'20'+p[2]:p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`; } const servicio = cols[3] || "Visita"; const formula = cols[4] || ""; let cObj = clientas.find(c => c.nombre.trim().toLowerCase() === nombre.toLowerCase()); if(!cObj) { cObj = { id: generarId(), nombre: nombre, tel: tel, visitas: [] }; clientas.push(cObj); } else if(tel && !cObj.tel) cObj.tel = tel; const existe = cObj.visitas.find(v => v.fecha === fechaStr && v.servicio === servicio && v.formula === formula); if(!existe) { cObj.visitas.push({ id: generarId(), fecha: fechaStr, servicio: servicio, formula: formula }); importadas++; } }); guardarBD(); cerrarModal('modal-importar'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast(`${importadas} visitas cargadas.`, 'bg-emerald-200 text-emerald-900'); }
+        function procesarPegadoExcel() { const texto = document.getElementById('texto-excel').value.trim(); if(!texto) return; const filas = texto.split('\n'); let lastNombre = ""; let importadas = 0; filas.forEach(filaStr => { const cols = filaStr.split('\t').map(c => c.trim()); if(cols.length < 3) return; let nombre = cols[0].replace(/\s+/g, ' '); if(nombre === "" && lastNombre !== "") nombre = lastNombre; else if(nombre !== "") lastNombre = nombre; if(!nombre || nombre.toLowerCase() === "nombre") return; const tel = cols[1] || ""; let fechaStr = cols[2] || hoyString(); if(fechaStr.includes('/')) { const p = fechaStr.split('/'); if(p.length===3) fechaStr = `${p[2].length===2?'20'+p[2]:p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`; } const servicio = cols[3] || "Visita"; const formula = cols[4] || ""; let cObj = clientas.find(c => c.nombre.trim().toLowerCase() === nombre.toLowerCase()); if(!cObj) { cObj = { id: generarId(), nombre: nombre, tel: tel, visitas: [] }; clientas.push(cObj); } else if(tel && !cObj.tel) cObj.tel = tel; const existe = cObj.visitas.find(v => v.fecha === fechaStr && v.servicio === servicio && v.formula === formula); if(!existe) { cObj.visitas.push({ id: generarId(), fecha: fechaStr, servicio: servicio, formula: formula }); importadas++; } }); guardarBD(); cerrarModal('modal-importar'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast(`${importadas} visitas cargadas.`, 'bg-app-primary text-app-textOn'); }
 
         // --- AGENDA SEMANAL ---
-        function habilitarMartes() { martesHabilitado = !martesHabilitado; renderAgendaSemanal(); }
         function cambiarSemanaAgenda(semanas) { fechaAgendaGlobal.setDate(fechaAgendaGlobal.getDate() + (semanas * 7)); renderAgendaSemanal(); }
         
         function abrirModalTurnoDesdeFecha(fechaStr) {
@@ -1148,18 +1201,27 @@
         function renderAgendaSemanal() {
             const container = document.getElementById('agenda-columnas'); let html = ''; const diasNombres = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
             document.getElementById('agenda-semana-label').innerText = `Semana ${fechaAgendaGlobal.getDate()}/${fechaAgendaGlobal.getMonth()+1}`;
-            let diaInicio = martesHabilitado ? 2 : 3; let iteraciones = martesHabilitado ? 5 : 4;
+            
+            let diaInicio = 2; // Martes
+            let iteraciones = 5; 
+
             for(let i = 0; i < iteraciones; i++) {
-                let offset = (diaInicio - fechaAgendaGlobal.getDay() + 7) % 7; let currDay = new Date(fechaAgendaGlobal); currDay.setDate(fechaAgendaGlobal.getDate() + offset + i);
-                let dateStr = currDay.toLocaleDateString('en-CA'); let displayDate = currDay.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit'}); let diaNum = currDay.getDay(); 
+                let offset = (diaInicio - fechaAgendaGlobal.getDay() + 7) % 7; 
+                let currDay = new Date(fechaAgendaGlobal); 
+                currDay.setDate(fechaAgendaGlobal.getDate() + offset + i);
+                
+                let dateStr = currDay.toLocaleDateString('en-CA'); 
+                let displayDate = currDay.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit'}); 
+                let diaNum = currDay.getDay(); 
                 let turnosDia = turnos.filter(t => t.fecha === dateStr).sort((a,b) => a.hora.localeCompare(b.hora));
+                
                 html += `
                 <div class="bg-app-card rounded-xl shadow-sm border border-app-border min-w-[200px] flex-shrink-0 flex flex-col h-[400px] overflow-hidden snap-center">
                     <div class="bg-app-panel py-2 text-center border-b border-app-border">
                         <p class="font-bold text-app-muted text-[9px] uppercase tracking-widest">${diasNombres[diaNum]}</p>
                         <p class="text-[11px] text-app-text font-bold">${displayDate}</p>
                     </div>
-                    <button onclick="abrirModalTurnoDesdeFecha('${dateStr}')" class="w-full text-center py-2 bg-app-card hover:bg-app-panel text-emerald-500 font-bold text-[10px] transition border-b border-app-border"><i class="fas fa-plus mr-1"></i> TURNO ACÁ</button>
+                    <button onclick="abrirModalTurnoDesdeFecha('${dateStr}')" class="w-full text-center py-2 bg-app-card hover:bg-app-panel text-app-icon font-bold text-[10px] transition border-b border-app-border"><i class="fas fa-plus mr-1"></i> TURNO ACÁ</button>
                     <div class="flex-grow overflow-y-auto p-2 space-y-1.5">
                         ${turnosDia.length ? turnosDia.map(t => `
                         <div class="p-2 border-l-4 border-l-app-primary bg-app-panel rounded-lg relative group cursor-pointer hover:border-app-icon transition border border-app-border" onclick="editarTurno('${t.id}')">
@@ -1174,7 +1236,7 @@
             container.innerHTML = html;
         }
         function editarTurno(id) { const t = turnos.find(x => x.id === id); document.getElementById('titulo-modal-turno').innerText = 'Editar Turno'; document.getElementById('turno-id').value = t.id; document.getElementById('turno-fecha').value = t.fecha; document.getElementById('turno-hora').value = t.hora; document.getElementById('turno-nombre').value = t.nombre; document.getElementById('turno-servicio').value = t.servicio; abrirModalUI('modal-turno'); }
-        function guardarTurno() { const nom = document.getElementById('turno-nombre').value.trim(); if(!nom) return mostrarToast('Escribí el nombre', 'bg-rose-200 text-rose-900'); const fechaStr = document.getElementById('turno-fecha').value; const data = { id: document.getElementById('turno-id').value || generarId(), fecha: fechaStr, hora: document.getElementById('turno-hora').value, nombre: nom, servicio: document.getElementById('turno-servicio').value }; const idx = turnos.findIndex(t => t.id === data.id); if(idx > -1) turnos[idx] = data; else turnos.push(data); guardarBD(); cerrarModal('modal-turno'); renderAgendaSemanal(); mostrarToast('Turno agendado', 'bg-emerald-200 text-emerald-900'); }
+        function guardarTurno() { const nom = document.getElementById('turno-nombre').value.trim(); if(!nom) return mostrarToast('Escribí el nombre', 'bg-rose-200 text-rose-900'); const fechaStr = document.getElementById('turno-fecha').value; const data = { id: document.getElementById('turno-id').value || generarId(), fecha: fechaStr, hora: document.getElementById('turno-hora').value, nombre: nom, servicio: document.getElementById('turno-servicio').value }; const idx = turnos.findIndex(t => t.id === data.id); if(idx > -1) turnos[idx] = data; else turnos.push(data); guardarBD(); cerrarModal('modal-turno'); renderAgendaSemanal(); mostrarToast('Turno agendado', 'bg-app-primary text-app-textOn'); }
         function borrarTurno(id) { pedirConfirmacion('¿Eliminar turno?', () => { turnos = turnos.filter(t => t.id !== id); guardarBD(); renderAgendaSemanal(); }); }
 
         // --- CAJA DIARIA ---
@@ -1246,8 +1308,8 @@
                         if(match) matchIndex = match.index; 
                     }
 
-                    if (matchIndex === -1 && nombreLow && nombreLow.length > 2) {
-                         if(detLow.includes(nombreLow)) matchIndex = detLow.indexOf(nombreLow);
+                    if (matchIndex === -1 && nombreLow && nombreLow.length > 2) { 
+                        if(detLow.includes(nombreLow)) matchIndex = detLow.indexOf(nombreLow);
                     }
 
                     if (matchIndex > -1) { 
@@ -1280,9 +1342,9 @@
                             <p class="text-[9px] text-app-icon uppercase tracking-widest mt-0.5 font-bold">Disp: <b class="${s.cantidad <= s.minimo ? 'text-rose-500' : 'text-app-text'}">${s.cantidad.toFixed(2).replace(/\.00$/, '')}</b> uni</p>
                         </div>
                         <div class="flex flex-col items-end gap-1">
-                            <span class="text-[9px] font-bold text-emerald-600 uppercase">Gramos a descontar:</span>
+                            <span class="text-[9px] font-bold text-app-icon uppercase">Gramos a descontar:</span>
                             <div class="relative">
-                                <input type="number" step="1" min="0" value="${s.autoGramos}" id="desc-stock-gr-${s.id}" class="w-20 border border-app-border rounded-lg p-1.5 pr-5 text-center font-bold outline-none focus:border-emerald-500 bg-app-panel text-emerald-600 text-sm shadow-inner">
+                                <input type="number" step="1" min="0" value="${s.autoGramos}" id="desc-stock-gr-${s.id}" class="w-20 border border-app-border rounded-lg p-1.5 pr-5 text-center font-bold outline-none focus:border-app-icon bg-app-panel text-app-icon text-sm shadow-inner">
                                 <span class="absolute right-2 top-1.5 text-[9px] text-app-muted">gr</span>
                             </div>
                         </div>
@@ -1305,10 +1367,10 @@
                 } 
             }); 
             guardarBD(); renderStock(); cerrarModal('modal-cobro-stock'); ejecutarCobroPendiente(); 
-            if(descontado) mostrarToast('Stock fraccionado descontado', 'bg-emerald-200 text-emerald-900'); 
+            if(descontado) mostrarToast('Stock descontado', 'bg-app-primary text-app-textOn'); 
         }
         
-        function ejecutarCobroPendiente() { if(!cobroPendiente) return; const now = new Date(); const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; caja.push({ id: generarId(), fecha: document.getElementById('fecha-caja').value, hora: timeStr, tipo: cobroPendiente.tipo, concepto: cobroPendiente.concepto, detalle: cobroPendiente.detalle, monto: cobroPendiente.monto, metodo: cobroPendiente.metodo }); guardarBD(); document.getElementById('mov-entidad').value = ''; document.getElementById('mov-detalle').value = ''; document.getElementById('mov-monto').value = ''; renderCaja(); mostrarToast('Cobro guardado', 'bg-emerald-200 text-emerald-900'); cobroPendiente = null; }
+        function ejecutarCobroPendiente() { if(!cobroPendiente) return; const now = new Date(); const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; caja.push({ id: generarId(), fecha: document.getElementById('fecha-caja').value, hora: timeStr, tipo: cobroPendiente.tipo, concepto: cobroPendiente.concepto, detalle: cobroPendiente.detalle, monto: cobroPendiente.monto, metodo: cobroPendiente.metodo }); guardarBD(); document.getElementById('mov-entidad').value = ''; document.getElementById('mov-detalle').value = ''; document.getElementById('mov-monto').value = ''; renderCaja(); mostrarToast('Cobro guardado', 'bg-app-primary text-app-textOn'); cobroPendiente = null; }
         function guardarMovimiento(tipo) { const nom = document.getElementById('mov-entidad').value; const det = document.getElementById('mov-detalle').value; const mon = parseFloat(document.getElementById('mov-monto').value); const met = document.getElementById('mov-metodo').value; if(!nom || !mon) return; const now = new Date(); const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; caja.push({ id: generarId(), fecha: document.getElementById('fecha-caja').value, hora: timeStr, tipo: tipo, concepto: nom, detalle: det, monto: mon, metodo: met }); guardarBD(); document.getElementById('mov-entidad').value = ''; document.getElementById('mov-detalle').value = ''; document.getElementById('mov-monto').value = ''; renderCaja(); mostrarToast('Gasto guardado', 'bg-rose-200 text-rose-900'); }
         function borrarMovimiento(id) { pedirConfirmacion('¿Eliminar registro de caja?', () => { caja = caja.filter(x=>x.id!==id); guardarBD(); renderCaja(); }); }
 
@@ -1333,9 +1395,9 @@
                     <div class="flex items-center justify-between">
                         <div class="text-center"><p class="text-[9px] text-app-muted uppercase font-bold tracking-wider">Unidades</p><span class="font-black text-2xl ${critico?'text-rose-500':'text-app-text'} leading-none">${s.cantidad.toFixed(2).replace(/\.00$/, '')}</span></div>
                         <div class="flex flex-col gap-1 bg-app-panel p-1 rounded-lg border border-app-border w-14">
-                            <button onclick="ajustarStock('${s.id}', 1)" class="w-full h-6 bg-app-card rounded shadow-sm text-emerald-500 font-bold hover:bg-app-border text-xs border border-app-border">+</button>
-                            <button onclick="ajustarStock('${s.id}', -0.25)" class="w-full h-6 bg-app-card rounded shadow-sm text-amber-500 font-bold hover:bg-app-border text-[10px] border border-app-border">-¼</button>
-                            <button onclick="ajustarStock('${s.id}', -0.5)" class="w-full h-6 bg-app-card rounded shadow-sm text-rose-500 font-bold hover:bg-app-border text-[10px] border border-app-border">-½</button>
+                            <button onclick="ajustarStock('${s.id}', 1)" class="w-full h-6 bg-app-card rounded shadow-sm text-app-icon font-bold hover:bg-app-border text-xs border border-app-border">+</button>
+                            <button onclick="ajustarStock('${s.id}', -0.25)" class="w-full h-6 bg-app-card rounded shadow-sm text-app-text opacity-70 font-bold hover:bg-app-border text-[10px] border border-app-border">-¼</button>
+                            <button onclick="ajustarStock('${s.id}', -0.5)" class="w-full h-6 bg-app-card rounded shadow-sm text-app-text font-bold hover:bg-app-border text-[10px] border border-app-border">-½</button>
                         </div>
                     </div>
                 </div>`
@@ -1348,7 +1410,7 @@
         function ajustarStock(id, cant) { let s = stock.find(x=>x.id===id); if(s) { s.cantidad = Math.max(0, s.cantidad + cant); guardarBD(); renderStock(); } }
         function borrarStock(id) { pedirConfirmacion('¿Borrar producto?', () => {stock = stock.filter(x=>x.id!==id); guardarBD(); renderStock();}); }
         function abrirModalImportarExcelStock() { document.getElementById('texto-excel-stock').value = ''; abrirModalUI('modal-importar-stock'); }
-        function procesarPegadoStock() { const filas = document.getElementById('texto-excel-stock').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[1].toLowerCase() === "nombre") return; let cod = cols[0] || ""; let nom = cols[1]; let cost = parseFloat(cols[2])||0; let prec = parseFloat(cols[3])||0; let cant = parseFloat(cols[4])||0; let min = parseFloat(cols[5])||1; let existente = stock.find(s => (cod !== "" && s.codigo === cod) || s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.costo = cost; existente.precio = prec; existente.cantidad = cant; existente.minimo = min; if(!existente.codigo && cod) existente.codigo = cod; } else { stock.push({ id: generarId(), codigo: cod, nombre: nom, costo: cost, precio: prec, cantidad: cant, minimo: min }); } }); guardarBD(); cerrarModal('modal-importar-stock'); renderStock(); mostrarToast(`Stock actualizado.`, 'bg-emerald-200 text-emerald-900'); }
+        function procesarPegadoStock() { const filas = document.getElementById('texto-excel-stock').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[1].toLowerCase() === "nombre") return; let cod = cols[0] || ""; let nom = cols[1]; let cost = parseFloat(cols[2])||0; let prec = parseFloat(cols[3])||0; let cant = parseFloat(cols[4])||0; let min = parseFloat(cols[5])||1; let existente = stock.find(s => (cod !== "" && s.codigo === cod) || s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.costo = cost; existente.precio = prec; existente.cantidad = cant; existente.minimo = min; if(!existente.codigo && cod) existente.codigo = cod; } else { stock.push({ id: generarId(), codigo: cod, nombre: nom, costo: cost, precio: prec, cantidad: cant, minimo: min }); } }); guardarBD(); cerrarModal('modal-importar-stock'); renderStock(); mostrarToast(`Stock actualizado.`, 'bg-app-primary text-app-textOn'); }
 
         // --- CATÁLOGO ---
         function renderCatalogo() {
@@ -1368,13 +1430,13 @@
                     </div>
                 </div>`).join('') : '<div class="col-span-full text-center text-app-muted font-bold py-10">No se encontraron servicios.</div>';
         }
-        function subirFotoDirecta(e, id) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const MAX = 600; let width = img.width; let height = img.height; if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } } else { if (height > MAX) { width *= MAX / height; height = MAX; } } canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height); const dataUrl = canvas.toDataURL('image/jpeg', 0.7); let s = servicios.find(x => x.id === id); if(s) { s.foto = dataUrl; guardarBD(); renderCatalogo(); mostrarToast("Foto actualizada", "bg-emerald-200 text-emerald-900"); } }; img.src = event.target.result; }; reader.readAsDataURL(file); }
+        function subirFotoDirecta(e, id) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const MAX = 600; let width = img.width; let height = img.height; if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } } else { if (height > MAX) { width *= MAX / height; height = MAX; } } canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height); const dataUrl = canvas.toDataURL('image/jpeg', 0.7); let s = servicios.find(x => x.id === id); if(s) { s.foto = dataUrl; guardarBD(); renderCatalogo(); mostrarToast("Foto actualizada", "bg-app-primary text-app-textOn"); } }; img.src = event.target.result; }; reader.readAsDataURL(file); }
         function abrirModalServicio() { document.getElementById('titulo-modal-servicio').innerText = 'Nuevo Servicio'; document.getElementById('servicio-id').value = ''; document.getElementById('servicio-nombre').value = ''; document.getElementById('servicio-precio').value = ''; abrirModalUI('modal-servicio'); }
         function editarServicio(id) { const s = servicios.find(x => x.id === id); document.getElementById('titulo-modal-servicio').innerText = 'Editar Servicio'; document.getElementById('servicio-id').value = s.id; document.getElementById('servicio-nombre').value = s.nombre; document.getElementById('servicio-precio').value = s.precio; abrirModalUI('modal-servicio'); }
         function guardarServicio() { const nom = document.getElementById('servicio-nombre').value.trim(); if(!nom) return; const data = { id: document.getElementById('servicio-id').value || generarId(), nombre: nom, precio: parseFloat(document.getElementById('servicio-precio').value)||0, foto: "" }; const idx = servicios.findIndex(x => x.id === data.id); if(idx > -1) { data.foto = servicios[idx].foto; servicios[idx] = data; } else servicios.push(data); guardarBD(); cerrarModal('modal-servicio'); renderCatalogo(); actualizarDatalists(); }
         function borrarServicio(id) { pedirConfirmacion('¿Borrar servicio?', () => { servicios = servicios.filter(x=>x.id!==id); guardarBD(); renderCatalogo(); actualizarDatalists(); }); }
         function abrirModalImportarExcelCatalogo() { document.getElementById('texto-excel-catalogo').value = ''; abrirModalUI('modal-importar-catalogo'); }
-        function procesarPegadoCatalogo() { const filas = document.getElementById('texto-excel-catalogo').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[0].toLowerCase() === "nombre") return; let nom = cols[0]; let prec = parseFloat(cols[1].replace(/[^0-9.-]+/g,""))||0; let existente = servicios.find(s => s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.precio = prec; } else { servicios.push({ id: generarId(), nombre: nom, precio: prec, foto: "" }); } }); guardarBD(); cerrarModal('modal-importar-catalogo'); renderCatalogo(); actualizarDatalists(); mostrarToast(`Precios actualizados.`, 'bg-emerald-200 text-emerald-900'); }
+        function procesarPegadoCatalogo() { const filas = document.getElementById('texto-excel-catalogo').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[0].toLowerCase() === "nombre") return; let nom = cols[0]; let prec = parseFloat(cols[1].replace(/[^0-9.-]+/g,""))||0; let existente = servicios.find(s => s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.precio = prec; } else { servicios.push({ id: generarId(), nombre: nom, precio: prec, foto: "" }); } }); guardarBD(); cerrarModal('modal-importar-catalogo'); renderCatalogo(); actualizarDatalists(); mostrarToast(`Precios actualizados.`, 'bg-app-primary text-app-textOn'); }
         function cargarFondoFlyerGenerico(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { fondoFlyerGlobal = event.target.result; localStorage.setItem('yes_fondo_flyer', fondoFlyerGlobal); mostrarToast("Fondo actualizado", "bg-app-primary text-app-textOn"); }; reader.readAsDataURL(file); }
         function generarFlyer(nom, pre, fotoParticular = '') { mostrarToast("Creando Flyer...", "bg-app-primary text-app-textOn"); const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('flyer-marca').innerText = nombreEmpresa.toUpperCase(); document.getElementById('flyer-titulo').innerText = nom; document.getElementById('flyer-precio').innerText = pre.toLocaleString('es-AR'); let fondoUsar = fotoParticular !== '' ? fotoParticular : fondoFlyerGlobal; document.getElementById('flyer-img').style.backgroundImage = fondoUsar ? `url(${fondoUsar})` : 'none'; const flyerElement = document.getElementById('flyer-generator'); flyerElement.style.opacity = '1'; setTimeout(() => { html2canvas(flyerElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#050b14', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Promo_${nom.replace(/\s+/g,'_')}.jpg`; flyerElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Flyer Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { flyerElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 300); }
 
@@ -1414,7 +1476,7 @@
             ];
             rotadorCaption = (rotadorCaption + 1) % plantillas.length; document.getElementById('redes-caption').value = plantillas[rotadorCaption];
         }
-        function copiarCaption() { const texto = document.getElementById('redes-caption').value; if(!texto) return; navigator.clipboard.writeText(texto).then(() => { mostrarToast("¡Texto copiado! Listo para Instagram ✨", "bg-emerald-200 text-emerald-900"); }).catch(err => { const textArea = document.createElement("textarea"); textArea.value = texto; document.body.appendChild(textArea); textArea.select(); document.execCommand("Copy"); textArea.remove(); mostrarToast("¡Texto copiado!", "bg-emerald-200 text-emerald-900"); }); }
+        function copiarCaption() { const texto = document.getElementById('redes-caption').value; if(!texto) return; navigator.clipboard.writeText(texto).then(() => { mostrarToast("¡Texto copiado! Listo para Instagram ✨", "bg-app-primary text-app-textOn"); }).catch(err => { const textArea = document.createElement("textarea"); textArea.value = texto; document.body.appendChild(textArea); textArea.select(); document.execCommand("Copy"); textArea.remove(); mostrarToast("¡Texto copiado!", "bg-app-primary text-app-textOn"); }); }
         function previewMedia(event) { const files = event.target.files; if(!files || files.length === 0) return; const container = document.getElementById('media-preview-container'); Array.from(files).forEach(file => { const url = URL.createObjectURL(file); const isVideo = file.type.startsWith('video/'); const idUnico = 'media-' + generarId(); if(!isVideo) collageImagesUrls.push({ id: idUnico, url: url }); const wrapper = document.createElement('div'); wrapper.id = idUnico; wrapper.className = "relative rounded-lg overflow-hidden border border-app-border shadow-sm bg-app-panel h-20 w-20 mx-auto flex items-center justify-center group aspect-square"; let contentHTML = isVideo ? `<video src="${url}" class="w-full h-full object-cover opacity-80" autoplay muted loop></video><i class="fas fa-play-circle absolute text-app-text text-xl drop-shadow-md"></i>` : `<img src="${url}" class="w-full h-full object-cover">`; wrapper.innerHTML = `${contentHTML}<button onclick="eliminarMedia('${idUnico}')" class="absolute top-1 right-1 bg-rose-500 text-white w-5 h-5 rounded-full flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition shadow-md"><i class="fas fa-times text-[10px]"></i></button>`; container.appendChild(wrapper); }); actualizarBotonCollage(); }
         function eliminarMedia(id) { document.getElementById(id).remove(); collageImagesUrls = collageImagesUrls.filter(img => img.id !== id); actualizarBotonCollage(); }
         function actualizarBotonCollage() { const btnCollage = document.getElementById('btn-generar-collage'); if(collageImagesUrls.length > 0) { btnCollage.classList.remove('hidden'); btnCollage.classList.add('flex'); } else { btnCollage.classList.add('hidden'); btnCollage.classList.remove('flex'); } }
@@ -1426,21 +1488,21 @@
             const ws = XLSX.utils.json_to_sheet([{ Nombre: "Ejemplo Maria", Telefono: "1155443322", Fecha: hoyString(), Servicio: "Color", Formula: "7.1 a 20 vol" }]);
             XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Clientas");
             XLSX.writeFile(wb, "Modelo_Clientas_GestoSmart.xlsx");
-            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+            mostrarToast("Plantilla descargada", "bg-app-primary text-app-textOn");
         }
         function descargarPlantillaStock() {
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet([{ Codigo: "1001", Nombre: "Shampoo Neutro 1L", Costo: 3500, Precio: 6000, Cantidad: 12, Minimo: 3 }]);
             XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Stock");
             XLSX.writeFile(wb, "Modelo_Stock_GestoSmart.xlsx");
-            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+            mostrarToast("Plantilla descargada", "bg-app-primary text-app-textOn");
         }
         function descargarPlantillaCatalogo() {
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet([{ Nombre: "Corte Femenino", Precio: 8500 }]);
             XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Precios");
             XLSX.writeFile(wb, "Modelo_Precios_GestoSmart.xlsx");
-            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+            mostrarToast("Plantilla descargada", "bg-app-primary text-app-textOn");
         }
     </script>
 </body>
