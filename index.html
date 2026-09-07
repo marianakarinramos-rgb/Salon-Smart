@@ -296,7 +296,7 @@
                     <div><h2 class="text-2xl font-bold text-app-text mb-1">Fichero de Clientes</h2><p class="text-app-muted text-xs">Historial clínico y contacto.</p></div>
                     <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
                         <button onclick="exportarExcelCompleto()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-download mr-1"></i> Respaldar Todo</button>
-                        <button onclick="abrirModalImportarExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-file-excel mr-1"></i> Subir Excel</button>
+                        <button onclick="abrirModalImportarExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-file-excel mr-1 text-app-icon"></i> Subir Excel</button>
                         <button onclick="vaciarDatosMasivos('clientas')" class="admin-only hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-trash-alt mr-1"></i> Vaciar Clientes</button>
                         <button onclick="abrirModalFicha()" class="w-full md:w-auto bg-app-primary text-app-textOn px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition flex justify-center items-center text-sm"><i class="fas fa-user-plus mr-1"></i> Nuevo Cliente</button>
                     </div>
@@ -345,7 +345,7 @@
                     <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
                         <input type="file" id="flyer-bg-input" accept="image/*" class="hidden" onchange="cargarFondoFlyerGenerico(event)">
                         <button onclick="document.getElementById('flyer-bg-input').click()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-image mr-1"></i> Fondo Promo</button>
-                        <button onclick="abrirModalImportarExcelCatalogo()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-file-excel mr-1"></i> Subir Excel</button>
+                        <button onclick="abrirModalImportarExcelCatalogo()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-file-excel mr-1 text-app-icon"></i> Subir Excel</button>
                         <button onclick="vaciarDatosMasivos('catalogo')" class="admin-only hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs"><i class="fas fa-trash-alt mr-1"></i> Vaciar Catálogo</button>
                         <button onclick="abrirModalServicio()" class="w-full md:w-auto bg-app-primary text-app-textOn px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition flex justify-center items-center text-sm"><i class="fas fa-plus mr-1"></i> Servicio</button>
                     </div>
@@ -608,7 +608,7 @@
         </div>
     </div>
 
-    <!-- Modal Ficha Simplificado -->
+    <!-- Modal Ficha Simplificado (CUMPLEAÑOS AGREGADO) -->
     <div id="modal-ficha" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden fade-in">
             <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center">
@@ -945,30 +945,22 @@
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     if (!firstSheet) throw new Error("Libro vacío");
                     
-                    const json = XLSX.utils.sheet_to_json(firstSheet, {defval: ""});
+                    const json = XLSX.utils.sheet_to_json(firstSheet, {header: 1, defval: ""});
                     if(json.length === 0) throw new Error("Sin datos");
 
                     let count = 0;
 
                     if(tipo === 'clientas') {
-                        json.forEach(row => {
-                            let keys = Object.keys(row);
-                            let keyNom = keys.find(k => k.toLowerCase().includes('nom'));
-                            let keyTel = keys.find(k => k.toLowerCase().includes('tel') || k.toLowerCase().includes('cel'));
-                            let keyCumple = keys.find(k => k.toLowerCase().includes('nac') || k.toLowerCase().includes('cump'));
-                            let keyFecha = keys.find(k => k.toLowerCase().includes('fech') && !k.toLowerCase().includes('nac'));
-                            let keyServ = keys.find(k => k.toLowerCase().includes('serv') || k.toLowerCase().includes('trab'));
-                            let keyForm = keys.find(k => k.toLowerCase().includes('form') || k.toLowerCase().includes('detal'));
-
-                            let nom = keyNom ? String(row[keyNom]).trim() : "";
-                            if(!nom) return; 
-
-                            let tel = keyTel ? String(row[keyTel]).trim() : "";
-                            let cumple = keyCumple ? parseExcelDate(row[keyCumple]) : "";
-                            let fecha = keyFecha ? parseExcelDate(row[keyFecha]) : hoyString();
-                            if(!fecha) fecha = hoyString();
-                            let serv = keyServ ? String(row[keyServ]).trim() : "Visita";
-                            let form = keyForm ? String(row[keyForm]).trim() : "";
+                        for(let i=1; i<json.length; i++) {
+                            let row = json[i];
+                            if(!row || !row[0]) continue;
+                            
+                            let nom = String(row[0]).trim();
+                            let tel = String(row[1] || "").trim();
+                            let cumple = parseExcelDate(row[2]);
+                            let fecha = parseExcelDate(row[3]) || hoyString();
+                            let serv = String(row[4] || "Visita").trim();
+                            let form = String(row[5] || "").trim();
 
                             let cObj = clientas.find(c => c.nombre && c.nombre.trim().toLowerCase() === nom.toLowerCase());
                             if(!cObj) { 
@@ -987,29 +979,21 @@
                             } else if (!existe && serv === "Visita" && form === "") {
                                 count++;
                             }
-                        });
+                        }
                         renderClientas(); actualizarEstadisticas();
                         cerrarModal('modal-importar');
                     } 
                     else if(tipo === 'stock') {
-                        json.forEach(row => {
-                            let keys = Object.keys(row);
-                            let keyCod = keys.find(k => k.toLowerCase().includes('cod'));
-                            let keyNom = keys.find(k => k.toLowerCase().includes('nom') || k.toLowerCase().includes('marc'));
-                            let keyCosto = keys.find(k => k.toLowerCase().includes('cost'));
-                            let keyPrec = keys.find(k => k.toLowerCase().includes('prec') || k.toLowerCase().includes('venta'));
-                            let keyCant = keys.find(k => k.toLowerCase().includes('cant') || k.toLowerCase().includes('stock'));
-                            let keyMin = keys.find(k => k.toLowerCase().includes('min') || k.toLowerCase().includes('alert'));
-
-                            let cod = keyCod ? String(row[keyCod]).trim() : "";
-                            let nom = keyNom ? String(row[keyNom]).trim() : "";
-                            if(!nom) return;
-
-                            let costo = keyCosto ? parseFloat(String(row[keyCosto]).replace(/[^0-9.-]+/g,"")) : 0;
-                            let prec = keyPrec ? parseFloat(String(row[keyPrec]).replace(/[^0-9.-]+/g,"")) : 0;
-                            let cant = keyCant ? parseFloat(String(row[keyCant]).replace(/[^0-9.-]+/g,"")) : 0;
-                            let min = keyMin ? parseFloat(String(row[keyMin]).replace(/[^0-9.-]+/g,"")) : 1;
-                            if(isNaN(costo)) costo = 0; if(isNaN(prec)) prec = 0; if(isNaN(cant)) cant = 0; if(isNaN(min)) min = 1;
+                        for(let i=1; i<json.length; i++) {
+                            let row = json[i];
+                            if(!row || !row[1]) continue; 
+                            
+                            let cod = String(row[0] || "").trim();
+                            let nom = String(row[1]).trim();
+                            let costo = parseFloat(row[2]) || 0;
+                            let prec = parseFloat(row[3]) || 0;
+                            let cant = parseFloat(row[4]) || 0;
+                            let min = parseFloat(row[5]) || 1;
 
                             let existente = stock.find(s => (cod !== "" && s.codigo === cod) || (s.nombre && s.nombre.toLowerCase() === nom.toLowerCase()));
                             if(existente) { 
@@ -1019,27 +1003,23 @@
                                 stock.push({ id: generarId(), codigo: cod, nombre: nom, costo: costo, precio: prec, cantidad: cant, minimo: min }); 
                             }
                             count++;
-                        });
+                        }
                         renderStock();
                         cerrarModal('modal-importar-stock');
                     }
                     else if(tipo === 'catalogo') {
-                        json.forEach(row => {
-                            let keys = Object.keys(row);
-                            let keyNom = keys.find(k => k.toLowerCase().includes('nom') || k.toLowerCase().includes('serv'));
-                            let keyPrec = keys.find(k => k.toLowerCase().includes('prec') || k.toLowerCase().includes('val'));
-                            
-                            let nom = keyNom ? String(row[keyNom]).trim() : "";
-                            if(!nom) return;
-                            
-                            let prec = keyPrec ? parseFloat(String(row[keyPrec]).replace(/[^0-9.-]+/g,"")) : 0;
-                            if(isNaN(prec)) prec = 0;
+                        for(let i=1; i<json.length; i++) {
+                            let row = json[i];
+                            if(!row || !row[0]) continue;
+                            let nom = String(row[0]).trim();
+                            let precStr = String(row[1] || "0").replace(/[^0-9.-]+/g,"");
+                            let prec = parseFloat(precStr) || 0;
 
                             let existente = servicios.find(s => s.nombre && s.nombre.toLowerCase() === nom.toLowerCase());
                             if(existente) { existente.precio = prec; }
                             else { servicios.push({ id: generarId(), nombre: nom, precio: prec, foto: "" }); }
                             count++;
-                        });
+                        }
                         renderCatalogo();
                         cerrarModal('modal-importar-catalogo');
                     }
@@ -1690,24 +1670,25 @@
         function actualizarBotonCollage() { const btnCollage = document.getElementById('btn-generar-collage'); if(collageImagesUrls.length > 0) { btnCollage.classList.remove('hidden'); btnCollage.classList.add('flex'); } else { btnCollage.classList.add('hidden'); btnCollage.classList.remove('flex'); } }
         function generarCollage() { if(collageImagesUrls.length === 0) return; mostrarToast("Armando Collage..."); const grid = document.getElementById('collage-grid'); grid.innerHTML = ""; const count = collageImagesUrls.length; if(count === 1) grid.style.gridTemplateColumns = "1fr"; else if(count === 2 || count === 4) grid.style.gridTemplateColumns = "1fr 1fr"; else grid.style.gridTemplateColumns = "1fr 1fr 1fr"; const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('collage-marca').innerText = nombreEmpresa.toUpperCase(); collageImagesUrls.slice(0, 6).forEach(imgData => { const div = document.createElement('div'); div.style.backgroundImage = `url(${imgData.url})`; div.style.backgroundSize = 'cover'; div.style.backgroundPosition = 'center'; div.style.width = '100%'; div.style.height = '100%'; div.style.borderRadius = '20px'; div.style.border = '2px solid var(--border-color)'; grid.appendChild(div); }); const collageElement = document.getElementById('collage-generator'); collageElement.style.opacity = '1'; setTimeout(() => { html2canvas(collageElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Collage_${hoyString()}.jpg`; collageElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Collage Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { collageElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 600); }
 
-        function actualizarEstadisticas() { 
-            const total = clientas.length; let activas = 0; let inactivas = 0; let totalV = 0; const hoy = new Date(); const limiteDias = 90 * 24 * 60 * 60 * 1000; 
-            clientas.forEach(c => { 
-                if(c.visitas && c.visitas.length > 0) { 
-                    totalV += c.visitas.length; 
-                    const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)); 
-                    let fechaUltimaStr = sorted[0].fecha; 
-                    let partes = fechaUltimaStr.split(fechaUltimaStr.includes('-') ? '-' : '/'); 
-                    let ultV = partes.length === 3 ? (fechaUltimaStr.includes('-') ? new Date(partes[0], partes[1]-1, partes[2]) : new Date(partes[2], partes[1]-1, partes[0])) : new Date(fechaUltimaStr); 
-                    if((hoy - ultV) <= limiteDias) activas++; else inactivas++; 
-                } else { inactivas++; } 
-            }); 
-            document.getElementById('stat-total').innerText = total; document.getElementById('stat-activas').innerText = activas; document.getElementById('stat-inactivas').innerText = inactivas; document.getElementById('stat-promedio').innerText = total > 0 ? (totalV / total).toFixed(1) : 0; 
-            
-            calcularAusentes();
-            calcularCumplesMes();
+        // --- PLANTILLAS EXCEL PARA IMPORTACIÓN ---
+        function descargarPlantillaClientas() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Ejemplo Maria", Telefono: "1155443322", Fecha_Nacimiento: "1990-05-24", Fecha_Visita: hoyString(), Servicio: "Color", Formula: "7.1 a 20 vol" }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Clientas");
+            XLSX.writeFile(wb, "Modelo_Clientas_GestoSmart.xlsx");
         }
-
+        function descargarPlantillaStock() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Codigo: "1001", Nombre: "Shampoo Neutro 1L", Costo: 3500, Precio: 6000, Cantidad: 12, Minimo: 3 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Stock");
+            XLSX.writeFile(wb, "Modelo_Stock_GestoSmart.xlsx");
+        }
+        function descargarPlantillaCatalogo() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Corte Femenino", Precio: 8500 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Precios");
+            XLSX.writeFile(wb, "Modelo_Precios_GestoSmart.xlsx");
+        }
     </script>
 </body>
 </html>
