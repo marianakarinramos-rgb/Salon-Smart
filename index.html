@@ -284,7 +284,7 @@
                         </div>
                     </div>
 
-                    <!-- 6. MARKETING Y REDES (NUEVO) -->
+                    <!-- 6. MARKETING Y REDES -->
                     <div class="bg-app-card p-5 rounded-2xl shadow-sm border border-app-border flex flex-col lg:col-span-2">
                         <div class="flex items-center gap-3 mb-3 border-b border-app-border pb-3">
                             <div class="w-10 h-10 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-lg"><i class="fab fa-instagram"></i></div>
@@ -654,19 +654,33 @@
         </div>
     </div>
 
-    <!-- Modales Importar (FILE UPLOAD + DRAG AND DROP) -->
+    <!-- Modales Importar (UX MODO DIOS) -->
     <div id="modal-importar" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Subir Clientas</h3><button onclick="cerrarModal('modal-importar')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="p-6">
-                <p class="text-[10px] text-app-muted mb-2 text-center font-bold uppercase tracking-widest">Formato de Columnas (El orden no importa)</p>
-                <p class="font-mono bg-app-panel p-2 rounded border border-app-border mb-2 text-[10px] text-center text-app-icon shadow-sm">Nombre | Telefono | Fecha Nacimiento | Fecha Visita | Servicio | Formula</p>
-                <p class="text-[10px] text-app-muted mb-4 text-center italic">*Si no tenés algún dato (ej: Nacimiento o Fórmula), dejá la celda en blanco.</p>
-                <div class="flex justify-center mb-6"><button onclick="descargarPlantillaClientas()" class="text-xs bg-app-card text-app-icon border border-app-border px-4 py-2 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Plantilla Base</button></div>
-                <label class="drop-zone block relative">
-                    <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Seleccionar Archivo Excel</p>
-                    <input type="file" accept=".xlsx, .xls, .csv" class="hidden" onchange="procesarArchivoExcel(event, 'clientas')">
-                </label>
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border mb-6 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">1</div>
+                        <h4 class="font-bold text-app-text">Descargar Modelo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Bajá este archivo y completalo <b>sin cambiarle los títulos</b> a las columnas para evitar errores.</p>
+                    <div class="pl-11"><button onclick="descargarPlantillaClientas()" class="w-full bg-app-card text-app-icon border border-app-border py-2.5 rounded-lg hover:bg-app-primary hover:text-white transition font-bold shadow-sm text-sm"><i class="fas fa-download mr-2"></i> Bajar Excel Modelo</button></div>
+                </div>
+                
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">2</div>
+                        <h4 class="font-bold text-app-text">Subir Archivo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Subí el Excel que acabás de completar.</p>
+                    <div class="pl-11">
+                        <label class="drop-zone block relative py-6">
+                            <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Tocar para subir</p>
+                            <input type="file" accept=".xlsx, .xls" class="hidden" onchange="procesarArchivoExcel(event, 'clientas')">
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -675,13 +689,28 @@
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Subir Stock</h3><button onclick="cerrarModal('modal-importar-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="p-6">
-                <p class="text-[10px] text-app-muted mb-2 text-center font-bold uppercase tracking-widest">Formato de Columnas (El orden no importa)</p>
-                <p class="font-mono bg-app-panel p-2 rounded border border-app-border mb-4 text-[10px] text-center text-app-icon shadow-sm">Codigo | Nombre | Costo | Precio | Cantidad | Minimo</p>
-                <div class="flex justify-center mb-6"><button onclick="descargarPlantillaStock()" class="text-xs bg-app-card text-app-icon border border-app-border px-4 py-2 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Plantilla</button></div>
-                <label class="drop-zone block relative">
-                    <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Seleccionar Archivo Excel</p>
-                    <input type="file" accept=".xlsx, .xls, .csv" class="hidden" onchange="procesarArchivoExcel(event, 'stock')">
-                </label>
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border mb-6 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">1</div>
+                        <h4 class="font-bold text-app-text">Descargar Modelo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Bajá este archivo y completalo <b>sin cambiarle los títulos</b> a las columnas para evitar errores.</p>
+                    <div class="pl-11"><button onclick="descargarPlantillaStock()" class="w-full bg-app-card text-app-icon border border-app-border py-2.5 rounded-lg hover:bg-app-primary hover:text-white transition font-bold shadow-sm text-sm"><i class="fas fa-download mr-2"></i> Bajar Excel Modelo</button></div>
+                </div>
+                
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">2</div>
+                        <h4 class="font-bold text-app-text">Subir Archivo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Subí el Excel que acabás de completar.</p>
+                    <div class="pl-11">
+                        <label class="drop-zone block relative py-6">
+                            <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Tocar para subir</p>
+                            <input type="file" accept=".xlsx, .xls" class="hidden" onchange="procesarArchivoExcel(event, 'stock')">
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -690,13 +719,28 @@
         <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl fade-in">
             <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-app-icon"></i> Subir Precios</h3><button onclick="cerrarModal('modal-importar-catalogo')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
             <div class="p-6">
-                <p class="text-[10px] text-app-muted mb-2 text-center font-bold uppercase tracking-widest">Formato de Columnas (El orden no importa)</p>
-                <p class="font-mono bg-app-panel p-2 rounded border border-app-border mb-4 text-[10px] text-center text-app-icon shadow-sm">Nombre | Precio</p>
-                <div class="flex justify-center mb-6"><button onclick="descargarPlantillaCatalogo()" class="text-xs bg-app-card text-app-icon border border-app-border px-4 py-2 rounded-lg hover:bg-app-panel transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Plantilla</button></div>
-                <label class="drop-zone block relative">
-                    <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Seleccionar Archivo Excel</p>
-                    <input type="file" accept=".xlsx, .xls, .csv" class="hidden" onchange="procesarArchivoExcel(event, 'catalogo')">
-                </label>
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border mb-6 shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">1</div>
+                        <h4 class="font-bold text-app-text">Descargar Modelo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Bajá este archivo y completalo <b>sin cambiarle los títulos</b> a las columnas para evitar errores.</p>
+                    <div class="pl-11"><button onclick="descargarPlantillaCatalogo()" class="w-full bg-app-card text-app-icon border border-app-border py-2.5 rounded-lg hover:bg-app-primary hover:text-white transition font-bold shadow-sm text-sm"><i class="fas fa-download mr-2"></i> Bajar Excel Modelo</button></div>
+                </div>
+                
+                <div class="bg-app-panel p-4 rounded-xl border border-app-border shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-app-card border border-app-border flex items-center justify-center font-bold text-app-icon text-sm">2</div>
+                        <h4 class="font-bold text-app-text">Subir Archivo</h4>
+                    </div>
+                    <p class="text-xs text-app-muted mb-4 pl-11">Subí el Excel que acabás de completar.</p>
+                    <div class="pl-11">
+                        <label class="drop-zone block relative py-6">
+                            <i class="fas fa-upload text-3xl text-app-icon mb-2"></i><p class="text-sm font-bold text-app-text">Tocar para subir</p>
+                            <input type="file" accept=".xlsx, .xls" class="hidden" onchange="procesarArchivoExcel(event, 'catalogo')">
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -821,7 +865,6 @@
         let clientasAusentesGlobal = []; 
         let cumplesGlobal = [];
 
-        // FORMATEO WHATSAPP ARGENTINA
         function formatWApp(tel) {
             if(!tel) return "";
             let num = tel.replace(/[^0-9]/g, '');
@@ -885,7 +928,7 @@
         });
 
         // -------------------------------------------------------------
-        // FUNCIONES DE EXCEL (EXPORTACIÓN)
+        // EXPORTACIÓN A EXCEL
         // -------------------------------------------------------------
         function exportarExcelCompleto() {
             mostrarToast('Generando Base de Datos...');
@@ -904,7 +947,6 @@
             mostrarToast('¡Excel descargado!');
         }
 
-        // --- EXPORTAR CAJA ---
         function exportarCajaExcel() {
             const fecha = document.getElementById('fecha-caja').value;
             const movs = caja.filter(m => m.fecha === fecha);
@@ -917,32 +959,15 @@
         }
 
         // -------------------------------------------------------------
-        // IMPORTACIÓN REAL POR ARCHIVO (UX MEJORADA)
+        // IMPORTACIÓN MODO DIOS (PLANTILLAS Y VALIDACIÓN)
         // -------------------------------------------------------------
-        function parseExcelDate(val) {
-            if (val === "" || val === null || val === undefined) return "";
-            if (typeof val === 'number') {
-                try {
-                    let o = XLSX.SSF.parse_date_code(val);
-                    return `${o.y}-${String(o.m).padStart(2,'0')}-${String(o.d).padStart(2,'0')}`;
-                } catch(e) { return String(val); }
+        function normalizarClaves(obj) {
+            let nuevo = {};
+            for (let key in obj) {
+                let nKey = String(key).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, '');
+                nuevo[nKey] = obj[key];
             }
-            let s = String(val).trim();
-            if(s.includes('/')) {
-                let p = s.split('/');
-                if(p.length === 3) {
-                    let y = p[2].length === 2 ? '20'+p[2] : p[2];
-                    return `${y}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-                }
-            } else if (s.includes('-')) {
-                let p = s.split('-');
-                if (p[0].length === 4) return s;
-                if(p.length === 3) {
-                    let y = p[2].length === 2 ? '20'+p[2] : p[2];
-                    return `${y}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-                }
-            }
-            return s;
+            return nuevo;
         }
 
         function procesarArchivoExcel(e, tipo) {
@@ -950,7 +975,7 @@
             if(!file) return;
             
             document.getElementById('carga-overlay-global').style.display = 'flex';
-            document.getElementById('carga-overlay-msg').innerText = 'Procesando Excel...';
+            document.getElementById('carga-overlay-msg').innerText = 'Validando Excel...';
 
             const reader = new FileReader();
             reader.onload = function(evt) {
@@ -958,24 +983,48 @@
                     const data = new Uint8Array(evt.target.result);
                     const workbook = XLSX.read(data, {type: 'array'});
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    if (!firstSheet) throw new Error("Libro vacío");
+                    if (!firstSheet) throw new Error("El Excel está vacío.");
                     
-                    const json = XLSX.utils.sheet_to_json(firstSheet, {header: 1, defval: ""});
-                    if(json.length === 0) throw new Error("Sin datos");
+                    // Defval "" y raw false convierte fechas automágicamente
+                    const jsonRaw = XLSX.utils.sheet_to_json(firstSheet, { defval: "", raw: false });
+                    if(jsonRaw.length === 0) throw new Error("No hay datos en el Excel.");
+
+                    // Validación de Títulos (Modo Dios)
+                    let headersOk = false;
+                    let firstObjKeys = Object.keys(jsonRaw[0]).map(k => String(k).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, ''));
+                    
+                    if(tipo === 'clientas' && firstObjKeys.some(k => k.includes('nombre') || k.includes('cliente'))) headersOk = true;
+                    if(tipo === 'stock' && firstObjKeys.some(k => k.includes('nombre') || k.includes('codigo'))) headersOk = true;
+                    if(tipo === 'catalogo' && firstObjKeys.some(k => k.includes('nombre'))) headersOk = true;
+
+                    if(!headersOk) {
+                        throw new Error("ERROR: Formato incorrecto. Por favor, usá el 'Excel Modelo' y no modifiques los títulos de las columnas.");
+                    }
 
                     let count = 0;
 
-                    if(tipo === 'clientas') {
-                        for(let i=1; i<json.length; i++) {
-                            let row = json[i];
-                            if(!row || !row[0]) continue;
+                    for(let i=0; i<jsonRaw.length; i++) {
+                        let row = normalizarClaves(jsonRaw[i]);
+                        
+                        if(tipo === 'clientas') {
+                            let nom = String(row['nombre'] || row['cliente'] || "").trim();
+                            if(!nom || nom.includes('Borrar esta fila')) continue;
                             
-                            let nom = String(row[0]).trim();
-                            let tel = String(row[1] || "").trim();
-                            let cumple = parseExcelDate(row[2]);
-                            let fecha = parseExcelDate(row[3]) || hoyString();
-                            let serv = String(row[4] || "Visita").trim();
-                            let form = String(row[5] || "").trim();
+                            let tel = String(row['telefono'] || row['celular'] || row['tel'] || "").trim();
+                            let cumple = String(row['fechanacimiento'] || row['cumpleanos'] || row['cumple'] || "").trim();
+                            let fecha = String(row['fechavisita'] || row['fecha'] || "").trim() || hoyString();
+                            let serv = String(row['servicio'] || "").trim() || "Visita";
+                            let form = String(row['formula'] || row['detalle'] || "").trim();
+
+                            // Corregir fecha si viene en formato mm/dd/yy por culpa de Excel en inglés
+                            if(fecha.includes('/')) {
+                                let p = fecha.split('/');
+                                if(p.length === 3) fecha = `${p[2]}-${p[0].padStart(2,'0')}-${p[1].padStart(2,'0')}`;
+                            }
+                            if(cumple.includes('/')) {
+                                let p = cumple.split('/');
+                                if(p.length >= 2) cumple = `2000-${p[0].padStart(2,'0')}-${p[1].padStart(2,'0')}`; // Forzar año bisiesto genérico para cumples
+                            }
 
                             let cObj = clientas.find(c => c.nombre && c.nombre.trim().toLowerCase() === nom.toLowerCase());
                             if(!cObj) { 
@@ -994,21 +1043,16 @@
                             } else if (!existe && serv === "Visita" && form === "") {
                                 count++;
                             }
-                        }
-                        renderClientas(); actualizarEstadisticas();
-                        cerrarModal('modal-importar');
-                    } 
-                    else if(tipo === 'stock') {
-                        for(let i=1; i<json.length; i++) {
-                            let row = json[i];
-                            if(!row || !row[1]) continue; 
+                        } 
+                        else if(tipo === 'stock') {
+                            let nom = String(row['nombre'] || row['articulo'] || row['marca'] || "").trim();
+                            if(!nom || nom.includes('Borrar esta fila')) continue;
                             
-                            let cod = String(row[0] || "").trim();
-                            let nom = String(row[1]).trim();
-                            let costo = parseFloat(row[2]) || 0;
-                            let prec = parseFloat(row[3]) || 0;
-                            let cant = parseFloat(row[4]) || 0;
-                            let min = parseFloat(row[5]) || 1;
+                            let cod = String(row['codigo'] || row['cod'] || "").trim();
+                            let costo = parseFloat(String(row['costo'] || "0").replace(/[^0-9.-]+/g,"")) || 0;
+                            let prec = parseFloat(String(row['precio'] || row['venta'] || "0").replace(/[^0-9.-]+/g,"")) || 0;
+                            let cant = parseFloat(String(row['cantidad'] || row['stock'] || "0").replace(/[^0-9.-]+/g,"")) || 0;
+                            let min = parseFloat(String(row['minimo'] || row['alerta'] || "1").replace(/[^0-9.-]+/g,"")) || 1;
 
                             let existente = stock.find(s => (cod !== "" && s.codigo === cod) || (s.nombre && s.nombre.toLowerCase() === nom.toLowerCase()));
                             if(existente) { 
@@ -1019,15 +1063,11 @@
                             }
                             count++;
                         }
-                        renderStock();
-                        cerrarModal('modal-importar-stock');
-                    }
-                    else if(tipo === 'catalogo') {
-                        for(let i=1; i<json.length; i++) {
-                            let row = json[i];
-                            if(!row || !row[0]) continue;
-                            let nom = String(row[0]).trim();
-                            let precStr = String(row[1] || "0").replace(/[^0-9.-]+/g,"");
+                        else if(tipo === 'catalogo') {
+                            let nom = String(row['nombre'] || row['servicio'] || "").trim();
+                            if(!nom || nom.includes('Borrar esta fila')) continue;
+                            
+                            let precStr = String(row['precio'] || row['valor'] || "0").replace(/[^0-9.-]+/g,"");
                             let prec = parseFloat(precStr) || 0;
 
                             let existente = servicios.find(s => s.nombre && s.nombre.toLowerCase() === nom.toLowerCase());
@@ -1035,21 +1075,65 @@
                             else { servicios.push({ id: generarId(), nombre: nom, precio: prec, foto: "" }); }
                             count++;
                         }
-                        renderCatalogo();
-                        cerrarModal('modal-importar-catalogo');
                     }
 
+                    if(tipo === 'clientas') { renderClientas(); actualizarEstadisticas(); cerrarModal('modal-importar'); }
+                    if(tipo === 'stock') { renderStock(); cerrarModal('modal-importar-stock'); }
+                    if(tipo === 'catalogo') { renderCatalogo(); cerrarModal('modal-importar-catalogo'); }
+
                     guardarBD(); actualizarDatalists();
-                    mostrarToast(`Importación exitosa (${count} registros)`);
+                    mostrarToast(`Importación perfecta (${count} registros)`);
                 } catch(err) {
                     console.error(err);
-                    mostrarToast("Error leyendo archivo. Asegurate de que sea un Excel válido.", "bg-rose-200 text-rose-900");
+                    mostrarToast(err.message, "bg-rose-500 text-white");
                 } finally {
                     document.getElementById('carga-overlay-global').style.display = 'none';
                     e.target.value = '';
                 }
             };
             reader.readAsArrayBuffer(file);
+        }
+
+        function descargarPlantillaClientas() {
+            const wb = XLSX.utils.book_new();
+            const wsData = [
+                ["Nombre", "Telefono", "Fecha Nacimiento", "Fecha Visita", "Servicio", "Formula"],
+                ["Maria Ejemplo", "1166554433", "24/05/1990", hoyString(), "Color", "7.1 a 20 vol"],
+                ["(Borrar esta fila de ejemplo)", "", "", "", "", ""]
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            ws['!cols'] = [{wch: 25}, {wch: 15}, {wch: 15}, {wch: 15}, {wch: 20}, {wch: 30}];
+            XLSX.utils.book_append_sheet(wb, ws, "Clientas");
+            XLSX.writeFile(wb, "GestoSmart_Modelo_Clientas.xlsx");
+            mostrarToast('Plantilla descargada');
+        }
+
+        function descargarPlantillaStock() {
+            const wb = XLSX.utils.book_new();
+            const wsData = [
+                ["Codigo", "Nombre", "Costo", "Precio", "Cantidad", "Minimo"],
+                ["1001", "Shampoo Neutro 1L", 3500, 6000, 12, 3],
+                ["(Borrar esta fila de ejemplo)", "", "", "", "", ""]
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            ws['!cols'] = [{wch: 10}, {wch: 30}, {wch: 10}, {wch: 10}, {wch: 10}, {wch: 10}];
+            XLSX.utils.book_append_sheet(wb, ws, "Stock");
+            XLSX.writeFile(wb, "GestoSmart_Modelo_Stock.xlsx");
+            mostrarToast('Plantilla descargada');
+        }
+
+        function descargarPlantillaCatalogo() {
+            const wb = XLSX.utils.book_new();
+            const wsData = [
+                ["Nombre", "Precio"],
+                ["Corte Femenino", 8500],
+                ["(Borrar esta fila de ejemplo)", ""]
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            ws['!cols'] = [{wch: 30}, {wch: 15}];
+            XLSX.utils.book_append_sheet(wb, ws, "Precios");
+            XLSX.writeFile(wb, "GestoSmart_Modelo_Precios.xlsx");
+            mostrarToast('Plantilla descargada');
         }
 
         function actualizarDatalists() {
@@ -1707,26 +1791,6 @@
         function eliminarMedia(id) { document.getElementById(id).remove(); collageImagesUrls = collageImagesUrls.filter(img => img.id !== id); actualizarBotonCollage(); }
         function actualizarBotonCollage() { const btnCollage = document.getElementById('btn-generar-collage'); if(collageImagesUrls.length > 0) { btnCollage.classList.remove('hidden'); btnCollage.classList.add('flex'); } else { btnCollage.classList.add('hidden'); btnCollage.classList.remove('flex'); } }
         function generarCollage() { if(collageImagesUrls.length === 0) return; mostrarToast("Armando Collage..."); const grid = document.getElementById('collage-grid'); grid.innerHTML = ""; const count = collageImagesUrls.length; if(count === 1) grid.style.gridTemplateColumns = "1fr"; else if(count === 2 || count === 4) grid.style.gridTemplateColumns = "1fr 1fr"; else grid.style.gridTemplateColumns = "1fr 1fr 1fr"; const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('collage-marca').innerText = nombreEmpresa.toUpperCase(); collageImagesUrls.slice(0, 6).forEach(imgData => { const div = document.createElement('div'); div.style.backgroundImage = `url(${imgData.url})`; div.style.backgroundSize = 'cover'; div.style.backgroundPosition = 'center'; div.style.width = '100%'; div.style.height = '100%'; div.style.borderRadius = '20px'; div.style.border = '2px solid var(--border-color)'; grid.appendChild(div); }); const collageElement = document.getElementById('collage-generator'); collageElement.style.opacity = '1'; setTimeout(() => { html2canvas(collageElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Collage_${hoyString()}.jpg`; collageElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Collage Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { collageElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 600); }
-
-        // --- PLANTILLAS EXCEL PARA IMPORTACIÓN ---
-        function descargarPlantillaClientas() {
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Ejemplo Maria", Telefono: "1155443322", Fecha_Nacimiento: "1990-05-24", Fecha_Visita: hoyString(), Servicio: "Color", Formula: "7.1 a 20 vol" }]);
-            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Clientas");
-            XLSX.writeFile(wb, "Modelo_Clientas_GestoSmart.xlsx");
-        }
-        function descargarPlantillaStock() {
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet([{ Codigo: "1001", Nombre: "Shampoo Neutro 1L", Costo: 3500, Precio: 6000, Cantidad: 12, Minimo: 3 }]);
-            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Stock");
-            XLSX.writeFile(wb, "Modelo_Stock_GestoSmart.xlsx");
-        }
-        function descargarPlantillaCatalogo() {
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Corte Femenino", Precio: 8500 }]);
-            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Precios");
-            XLSX.writeFile(wb, "Modelo_Precios_GestoSmart.xlsx");
-        }
     </script>
 </body>
 </html>
