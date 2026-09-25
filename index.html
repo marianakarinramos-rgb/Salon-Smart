@@ -202,7 +202,7 @@
                     <p class="text-app-muted text-sm">Todo lo que necesitas saber para sacarle jugo a cada módulo y automatizar tu negocio.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-10">
                     <!-- 1. IDENTIDAD Y ACCESOS -->
                     <div class="bg-app-card p-5 rounded-2xl shadow-sm border border-app-border flex flex-col">
                         <div class="flex items-center gap-3 mb-3 border-b border-app-border pb-3">
@@ -226,10 +226,8 @@
                             <p><strong>Módulo de Retención:</strong> El sistema detecta automáticamente cuando una clienta pasa <strong>más de 90 días</strong> sin venir y te enciende la campanita 🔔. Al tocarla, podés enviarles un mensaje automático para recuperar la visita.</p>
                             
                             <div class="bg-app-panel p-3 rounded-lg border border-app-border mt-2">
-                                <p class="text-[10px] font-bold text-app-icon uppercase tracking-widest mb-1"><i class="fas fa-file-excel mr-1"></i> Excel para Subida Masiva</p>
-                                <p class="text-[11px] mb-1">El orden de columnas no importa, pero estos son los títulos requeridos:</p>
-                                <p class="font-mono bg-app-card p-2 rounded border border-app-border text-[10px] text-center font-bold text-app-icon">Nombre | Telefono | Fecha Nacimiento | Fecha Visita | Servicio | Formula</p>
-                                <p class="text-[10px] italic mt-1 text-app-muted">*Si te falta algún dato (ej: Nacimiento), dejá la celda en blanco.</p>
+                                <p class="text-[10px] font-bold text-app-icon uppercase tracking-widest mb-1"><i class="fas fa-file-excel mr-1"></i> Subida por Excel (Plantilla)</p>
+                                <p class="text-[11px] mb-1">Para no cargar a mano, tocá el botón <strong>"Subir Excel"</strong> en la pestaña superior. Ahí vas a poder descargar una <strong>Plantilla Modelo</strong>, completarla con los datos de tus clientas y subirla al sistema en un solo clic.</p>
                             </div>
                         </div>
                     </div>
@@ -257,9 +255,8 @@
                             <p>Mantené tu catálogo actualizado para usarlo luego en la Caja Diaria. Podés asignar una foto rápida usando la cámara web de tu celular o PC tocando el ícono de la imagen.</p>
                             <p><strong>Botón "Promo":</strong> Transforma ese servicio en una gráfica lista para subir a Instagram Stories con tu logo y el precio en formato cartel.</p>
                             <div class="bg-app-panel p-3 rounded-lg border border-app-border mt-2">
-                                <p class="text-[10px] font-bold text-app-icon uppercase tracking-widest mb-1"><i class="fas fa-file-excel mr-1"></i> Excel para Precios</p>
-                                <p class="text-[11px] mb-1">El orden no importa, usá estos títulos en tu Excel:</p>
-                                <p class="font-mono bg-app-card p-2 rounded border border-app-border text-[10px] text-center font-bold text-app-icon">Nombre | Precio</p>
+                                <p class="text-[10px] font-bold text-app-icon uppercase tracking-widest mb-1"><i class="fas fa-file-excel mr-1"></i> Carga de Precios por Excel</p>
+                                <p class="text-[11px] mb-1">Podés cargar tu lista completa tocando <strong>"Subir Excel"</strong>. Descargá el modelo, poné el nombre del servicio y el precio, y subilo para actualizar todo junto.</p>
                             </div>
                         </div>
                     </div>
@@ -283,6 +280,24 @@
                                 <p class="mb-2">Cuando presiones <strong>"+ Cobro"</strong>, el sistema lee la fórmula escrita, extrae los <em>gramos (grs, g)</em> y busca si mencionaste algún color guardado en tu inventario (Ej: <em>"Color 7.4 (30 grs)"</em>).</p>
                                 <p class="font-bold bg-app-card px-2 py-1 rounded text-[11px] text-center mb-2 shadow-sm border border-app-border text-app-icon">Lógica de fraccionamiento: 60 gramos = 1 Unidad.</p>
                                 <p>Si descontás 30 gramos de un tinte, bajará tu stock en 0.5 unidades de manera automática.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. MARKETING Y REDES (NUEVO) -->
+                    <div class="bg-app-card p-5 rounded-2xl shadow-sm border border-app-border flex flex-col lg:col-span-2">
+                        <div class="flex items-center gap-3 mb-3 border-b border-app-border pb-3">
+                            <div class="w-10 h-10 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-lg"><i class="fab fa-instagram"></i></div>
+                            <div><h3 class="text-base font-bold text-app-text leading-tight">6. Marketing y Redes</h3><p class="text-[11px] text-app-muted">Generador de contenido y textos automáticos.</p></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-app-text opacity-90 leading-relaxed flex-grow">
+                            <div>
+                                <p class="font-bold mb-1"><i class="fas fa-magic text-app-icon mr-1"></i> Redactor Automático de Textos</p>
+                                <p class="mb-4">Escribí el nombre de la clienta que atendiste hoy en el buscador. El sistema cruzará sus datos con el servicio que le hiciste (ej: Balayage) y generará un texto con emojis y hashtags listo para copiar y pegar en tu Instagram o Facebook. Si no te gusta, tocá el dado 🎲 para generar otra versión.</p>
+                            </div>
+                            <div class="bg-app-panel p-4 rounded-xl border border-app-border">
+                                <p class="font-bold text-app-icon mb-2 flex items-center"><i class="fas fa-border-all mr-2"></i> Creador de Collages (Antes y Después)</p>
+                                <p class="mb-2">Tocá en <strong>Subir fotos/videos</strong> y elegí imágenes del trabajo terminado desde tu celular. Al tocar <strong>Armar Collage</strong>, la aplicación fusionará las fotos en una sola imagen cuadrada, le agregará tu marca de agua abajo y te la dejará lista para descargar y publicar como Post o Reel.</p>
                             </div>
                         </div>
                     </div>
@@ -534,7 +549,7 @@
 
             <!-- ================= TAB: CONFIGURACIÓN ================= -->
             <div id="tab-config" class="admin-only tab-content hidden fade-in">
-                <div class="max-w-3xl mx-auto space-y-5">
+                <div class="max-w-3xl mx-auto space-y-5 pb-10">
                     <div><h2 class="text-xl font-bold text-app-text mb-1">Configuración y Seguridad</h2><p class="text-app-muted text-xs">Adaptá el sistema a tu marca.</p></div>
                     <div class="bg-app-card p-5 rounded-xl border border-app-border shadow-sm">
                         <label class="text-[10px] font-bold text-app-icon uppercase tracking-widest block mb-1"><i class="fas fa-palette mr-1"></i> Apariencia</label>
@@ -1210,6 +1225,29 @@
             const nom = nombre.split(' ')[0];
             const msj = `¡Feliz cumple ${nom}! 🎂 Queremos regalarte un 20% OFF en tu próxima visita al salón para festejar. ¡Avisanos y te guardamos un lugarcito! ✨`;
             window.open(`https://wa.me/${formatWApp(tel)}?text=${encodeURIComponent(msj)}`, '_blank');
+        }
+
+        function actualizarEstadisticas() {
+            if(appLocked) return;
+            const total = clientas.length;
+            let activas = 0; let totalVisitas = 0;
+            const hoy = new Date();
+            clientas.forEach(c => {
+                if(c.visitas && c.visitas.length > 0) {
+                    totalVisitas += c.visitas.length;
+                    const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha.replace(/\//g,'-'))-new Date(a.fecha.replace(/\//g,'-')));
+                    const uFecha = sorted[0].fecha;
+                    const p = uFecha.split(uFecha.includes('-') ? '-' : '/');
+                    const ultV = p.length === 3 ? (uFecha.includes('-') ? new Date(p[0], p[1]-1, p[2]) : new Date(p[2], p[1]-1, p[0])) : new Date(uFecha);
+                    if (Math.floor((hoy - ultV) / (1000 * 60 * 60 * 24)) < 90) activas++;
+                }
+            });
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-activas').innerText = activas;
+            document.getElementById('stat-inactivas').innerText = total - activas;
+            document.getElementById('stat-promedio').innerText = total > 0 ? (totalVisitas / total).toFixed(1) : 0;
+            calcularAusentes();
+            calcularCumplesMes();
         }
 
         // --- CLIENTAS ---
